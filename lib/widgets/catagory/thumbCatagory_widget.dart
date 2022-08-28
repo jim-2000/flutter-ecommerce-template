@@ -1,22 +1,21 @@
-import 'dart:developer';
-
-import 'package:app/utils/appColors.dart';
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class CatagoryThumb extends StatelessWidget {
   const CatagoryThumb(
-      {Key? key, required this.img, required this.name, required this.pathClr})
+      {Key? key, required this.img, required this.name, this.onTap})
       : super(key: key);
   final String name, img;
-  final Color pathClr;
+
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
     final double hi = MediaQuery.of(context).size.height;
     final double we = MediaQuery.of(context).size.width;
+    final Color pathClr =
+        Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
     return InkWell(
-      onTap: () {
-        log(name + "Thumb product tapped");
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
@@ -27,7 +26,7 @@ class CatagoryThumb extends StatelessWidget {
                 width: 50,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(img),
+                    image: NetworkImage(img),
                     fit: BoxFit.fill,
                   ),
                   color: pathClr.withOpacity(0.1),

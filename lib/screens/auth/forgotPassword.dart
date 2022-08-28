@@ -4,10 +4,12 @@ import 'dart:developer';
 
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
+import 'package:app/utils/inputWidgets.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
+  static const String routeName = 'auth/forgotPassword';
 
   @override
   State<ForgotPassword> createState() => _ForgotPasswordState();
@@ -20,7 +22,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget build(BuildContext context) {
     final theme = Utils(context).getTheme;
     final sizes = Utils(context).getScreenSize;
-    final utils = Utils(context);
+    final inputs = AppinputWidgets(context);
 
 //
 
@@ -82,7 +84,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const SizedBox(
                 height: 40,
               ),
-              utils.signupInput(
+              inputs.signupInput(
                   // context: context,
                   text: "Email",
                   controller: textEditingController,
@@ -94,12 +96,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const SizedBox(
                 height: 20,
               ),
-              utils.btn(
-                  text: "SEND OTP",
-                  callback: () {
-                    log(textEditingController.text);
-                    textEditingController.text = '';
-                  }),
+              inputs.btn(
+                text: "SEND OTP",
+                callback: () {
+                  log(textEditingController.text);
+                  textEditingController.text = '';
+                },
+              ),
             ],
           ),
         ),

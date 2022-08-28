@@ -2,10 +2,12 @@ import 'dart:developer';
 
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
+import 'package:app/utils/inputWidgets.dart';
 import 'package:flutter/material.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({Key? key}) : super(key: key);
+  static const String routeName = 'auth/resetScreen';
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -20,21 +22,21 @@ class _ResetPasswordState extends State<ResetPassword> {
     });
   }
 
-  TextEditingController _newPasswordcontroller = TextEditingController();
+  final TextEditingController _newPasswordcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final theme = Utils(context).getTheme;
     final sizes = Utils(context).getScreenSize;
-    final utils = Utils(context);
+    final inputs = AppinputWidgets(context);
     return Scaffold(
       backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
       appBar: AppBar(
         bottom: const PreferredSize(
-            child: SizedBox(),
             preferredSize: Size(
               double.infinity,
               50,
-            )),
+            ),
+            child: SizedBox()),
         backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
         elevation: 0,
         title: Container(
@@ -83,11 +85,11 @@ class _ResetPasswordState extends State<ResetPassword> {
               const SizedBox(
                 height: 40,
               ),
-              utils.passwordInput(text: "Current Password"),
+              inputs.passwordInput(text: "Current Password"),
               const SizedBox(
                 height: 20,
               ),
-              utils.passwordInput(
+              inputs.passwordInput(
                 text: "New Password",
                 isobsecure: isvisiable,
                 controller: _newPasswordcontroller,
@@ -98,22 +100,25 @@ class _ResetPasswordState extends State<ResetPassword> {
                 },
                 suffix: IconButton(
                   onPressed: _toggleVisibility,
-                  icon: Icon(Icons.remove_red_eye, color: AppColors.AppGrey),
+                  icon: Icon(
+                      isvisiable ? Icons.remove_red_eye : Icons.visibility_off,
+                      color: AppColors.AppGrey),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
-              utils.passwordInput(text: "Confirm Password"),
+              inputs.passwordInput(text: "Confirm Password"),
               const SizedBox(
                 height: 20,
               ),
-              utils.btn(
-                  text: "reset password",
-                  callback: () {
-                    log(_newPasswordcontroller.text);
-                    _newPasswordcontroller.text = '';
-                  }),
+              inputs.btn(
+                text: "reset password",
+                callback: () {
+                  log(_newPasswordcontroller.text);
+                  _newPasswordcontroller.text = '';
+                },
+              ),
             ],
           ),
         ),

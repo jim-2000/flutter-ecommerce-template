@@ -3,7 +3,7 @@ import 'dart:developer' show log;
 import 'package:flutter/material.dart';
 
 class CategoriesWidgets extends StatelessWidget {
-  CategoriesWidgets({
+  const CategoriesWidgets({
     Key? key,
     required this.imgPath,
     required this.title,

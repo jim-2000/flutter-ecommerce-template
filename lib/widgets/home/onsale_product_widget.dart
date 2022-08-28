@@ -18,6 +18,7 @@ class OnsaleProduct extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,8 +26,8 @@ class OnsaleProduct extends StatelessWidget {
                 FancyShimmerImage(
                   imageUrl:
                       "https://res.cloudinary.com/glovoapp/image/fetch//f_auto,q_auto/https://glovoapp.com/images/landing/address-container-image-burger.png",
-                  width: size.width * 0.14,
-                  height: size.width * 0.15,
+                  width: 100,
+                  height: size.width * 0.18,
                   boxFit: BoxFit.fill,
                 ),
                 Column(
@@ -61,11 +62,13 @@ class OnsaleProduct extends StatelessWidget {
               height: 5,
             ),
             Text(
-              "Product Title",
+              "Adidas Super Shoes",
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
               style: TextStyle(
                 color: AppColors.AppBlack,
                 fontWeight: FontWeight.bold,
-                fontSize: 22,
+                fontSize: 18,
               ),
             )
           ],

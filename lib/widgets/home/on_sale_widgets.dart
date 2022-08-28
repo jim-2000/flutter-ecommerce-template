@@ -1,7 +1,5 @@
-import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/home/onsale_product_widget.dart';
-import 'package:app/widgets/catagory/priceWidget.dart';
 import 'package:flutter/material.dart';
 
 class OnSaleWidget extends StatelessWidget {

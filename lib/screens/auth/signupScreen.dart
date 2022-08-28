@@ -1,16 +1,39 @@
 import 'dart:developer';
 
+import 'package:app/screens/auth/loginScreen.dart';
+import 'package:app/screens/bottom_bar_Screen.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
+import 'package:app/utils/inputWidgets.dart';
+import 'package:app/utils/modalBottom.dart';
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
+  static const String routeName = 'auth/signupScreen';
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _firstName = TextEditingController();
+  final TextEditingController _lastName = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool isvisiable = false;
+  void _toggleVisibility() {
+    setState(() {
+      isvisiable = !isvisiable;
+      log(isvisiable.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Utils(context).getTheme;
     final sizes = Utils(context).getScreenSize;
+    final inputs = AppinputWidgets(context);
 
     return Scaffold(
       backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
@@ -71,62 +94,73 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
-              signupInput(context: context, text: "Name"),
+              inputs.signupInput(
+                text: "First Name",
+                controller: _firstName,
+                onChanged: (p0) {
+                  log(p0);
+                  setState(() {});
+                },
+              ),
               const SizedBox(
                 height: 20,
               ),
-              signupInput(context: context, text: "Email/Phone"),
+              inputs.signupInput(
+                text: "Last Name",
+                controller: _lastName,
+                onChanged: (p0) {
+                  log(p0);
+                  setState(() {});
+                },
+              ),
               const SizedBox(
                 height: 20,
               ),
-              signupInput(
-                context: context,
+              inputs.signupInput(
+                text: "Email",
+                controller: _emailController,
+                onChanged: (p0) {
+                  log(p0);
+                  setState(() {});
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              inputs.signupInput(
                 text: "Password",
-                decoration: InputDecoration(
-                  label: Text(
-                    "Password",
-                    style: TextStyle(
-                      color: AppColors.AppGrey,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
-                      color: AppColors.AppPrimary,
-                      width: 2,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
-                      color: theme ? Colors.white : Colors.black,
-                      width: 2,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.all(20.0),
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.remove_red_eye),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
+                controller: _passwordController,
+                onChanged: (p0) {
+                  log(p0);
+                  setState(() {});
+                },
               ),
               const SizedBox(
                 height: 40,
               ),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width, 55),
                     primary: AppColors.AppPrimary,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_firstName.text.isEmpty ||
+                        _lastName.text.isEmpty ||
+                        _emailController.text.isEmpty ||
+                        _passwordController.text.isEmpty) {
+                      AppModalBottomSheet.showDialoge(
+                        title: "Input Error",
+                        description: "Please fill up all the Fileds",
+                      );
+                    } else {
+                      Navigator.pushNamed(context, BottomBarScreen.routeName);
+                    }
+                  },
                   child: Text(
                     "Sign up".toUpperCase(),
                     style: const TextStyle(
@@ -165,8 +199,8 @@ class SignUpScreen extends StatelessWidget {
                 height: 40,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       "Alrady have an account ? ",
                       style: TextStyle(
                         color: Colors.grey,
@@ -174,13 +208,18 @@ class SignUpScreen extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    Text(
-                      "Sign in",
-                      style: TextStyle(
-                        color: Colors.deepOrange,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                        decoration: TextDecoration.underline,
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(LoginScreen.routeName);
+                      },
+                      child: const Text(
+                        "Sign in",
+                        style: TextStyle(
+                          color: Colors.deepOrange,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
                   ],
@@ -189,74 +228,6 @@ class SignUpScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  TextFormField signupInput({
-    required String text,
-    required BuildContext context,
-    InputDecoration? decoration,
-    TextEditingController? controller,
-    void Function(String)? onChanged,
-  }) {
-    final theme = Utils(context).getTheme;
-    return TextFormField(
-      controller: controller,
-      onChanged: onChanged,
-      style: const TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-      ),
-      decoration: decoration ??
-          InputDecoration(
-            label: Text(
-              text,
-              style: TextStyle(
-                color: AppColors.AppGrey,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: AppColors.AppPrimary,
-                width: 2,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: theme ? Colors.white : Colors.black,
-                width: 2,
-              ),
-            ),
-            contentPadding: const EdgeInsets.all(20.0),
-          ),
-    );
-  }
-
-  SizedBox devides(Size sizes) {
-    return SizedBox(
-      height: 40,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 1,
-            width: sizes.width / 4,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-            ),
-          ),
-          const Text("Or sign up with"),
-          Container(
-            height: 1,
-            width: sizes.width / 4,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade800,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class EmptyCard extends StatelessWidget {
   String imgss;
   String title;
+  String? buttonTitle;
   String? subtitle;
   VoidCallback? onButtonTap;
   EmptyCard({
@@ -11,17 +12,18 @@ class EmptyCard extends StatelessWidget {
     required this.title,
     this.subtitle,
     this.onButtonTap,
+    this.buttonTitle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: ScrollPhysics(),
+      physics: const ScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 80),
+            margin: const EdgeInsets.only(top: 80),
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.4,
             decoration: BoxDecoration(
@@ -47,7 +49,7 @@ class EmptyCard extends StatelessWidget {
               width: double.infinity,
               child: Center(
                 child: Text(
-                  subtitle.toString(),
+                  subtitle ?? "There is no product ",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -57,18 +59,18 @@ class EmptyCard extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 minimumSize: Size(MediaQuery.of(context).size.width, 55),
               ),
               onPressed: onButtonTap ?? () {},
               child: Text(
-                "Shop Now".toUpperCase(),
-                style: TextStyle(
+                buttonTitle ?? "Shop Now".toUpperCase(),
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                 ),

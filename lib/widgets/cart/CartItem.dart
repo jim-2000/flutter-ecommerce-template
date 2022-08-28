@@ -10,7 +10,7 @@ class CartIdtem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        log("cart item " + img);
+        log("cart item $img");
       },
       child: Card(
         elevation: 20,
@@ -58,14 +58,14 @@ class CartIdtem extends StatelessWidget {
                               name.toString(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 18),
+                              style: const TextStyle(fontSize: 18),
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: InkWell(
                               onTap: () => {
-                                log("cart item " + name),
+                                log("cart item $name"),
                               },
                               child: const Icon(
                                 Icons.close,
@@ -114,7 +114,7 @@ class CartIdtem extends StatelessWidget {
                               "\$ ${(50 * 2).toStringAsFixed(2)}",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 16),
+                              style: const TextStyle(fontSize: 16),
                             ),
                           ),
                         ],
