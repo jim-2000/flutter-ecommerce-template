@@ -31,8 +31,10 @@ class WishListProvider extends ChangeNotifier {
   // remove from wishlist
   void removeFromWishList(String wId) {
     if (_wishList.containsKey(wId)) {
+      log(wId);
       _wishList.remove(wId);
     }
+    log(wishList.length.toString());
     notifyListeners();
   }
 
@@ -40,5 +42,10 @@ class WishListProvider extends ChangeNotifier {
   void removeAll() {
     _wishList.clear();
     notifyListeners();
+  }
+
+  // is item in wishlist
+  bool isInWishList(String wId) {
+    return _wishList.containsKey(wId);
   }
 }

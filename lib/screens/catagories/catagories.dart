@@ -1,9 +1,15 @@
 import 'package:app/models/productModel.dart';
 import 'package:app/models/products.dart';
+import 'package:app/provider/cartProvider.dart';
+import 'package:app/provider/wishListProvider.dart';
+import 'package:app/screens/cart/cart_screen.dart';
+import 'package:app/screens/wishlist/wishlist.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/catagory/catagorytwo.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Categories extends StatelessWidget {
   Categories({Key? key}) : super(key: key);
@@ -89,24 +95,54 @@ class Categories extends StatelessWidget {
     final theme = Utils(context).getTheme;
     final size = Utils(context).getScreenSize;
     final List<Product> products = Products.products;
+    // wishlist provider
+    final WishListProvider wishlist = Provider.of<WishListProvider>(context);
+    // cart provider
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categories'),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.favorite_border_outlined,
-              color: AppColors.AppPrimary,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.shopping_cart_outlined,
-              color: AppColors.AppPrimary,
-            ),
-          ),
+          Consumer<WishListProvider>(builder: (context, wp, _) {
+            return Badge(
+              toAnimate: true,
+              animationType: BadgeAnimationType.slide,
+              badgeContent: Text(
+                wishlist.wishList.length.toString(),
+                style: TextStyle(color: Colors.black),
+              ),
+              position: BadgePosition.topEnd(top: 5, end: 7),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(WishlistScreen.routeName);
+                },
+                icon: Icon(
+                  Icons.favorite_border_outlined,
+                  color: AppColors.AppPrimary,
+                ),
+              ),
+            );
+          }),
+          Consumer<CartProvider>(builder: (context, cp, _) {
+            return Badge(
+              toAnimate: true,
+              animationType: BadgeAnimationType.slide,
+              badgeContent: Text(
+                cartProvider.cartList.length.toString(),
+                style: TextStyle(color: Colors.black),
+              ),
+              position: BadgePosition.topEnd(top: 5, end: 7),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
+                icon: Icon(
+                  Icons.shopping_cart_outlined,
+                  color: AppColors.AppPrimary,
+                ),
+              ),
+            );
+          }),
           const SizedBox(
             width: 10,
           ),
@@ -127,26 +163,3 @@ class Categories extends StatelessWidget {
     );
   }
 }
-
- 
-
-/**
- * 
- *         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              CatagorytwoWidget(
-                  title: "assets/images/offres/phone.jpg",
-                  image: "ELECTRONICS",
-                  description: "Mobile Phones & Tablets",
-                  ontap: () {}),
-              CatagorytwoWidget(
-                  title: "assets/images/offres/women.jpg",
-                  image: "Women Fashon",
-                  description: "T-shirt Tops & Bottoms",
-                  ontap: () {}),
-            ],
-          ),
-        ),
- * 
- */

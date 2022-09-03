@@ -12,8 +12,8 @@ class Style {
           fontWeight: FontWeight.w600,
         ),
         iconTheme: IconThemeData(
-          color: isDarkTheme ? AppColors.AppBg : AppColors.AppBlack,
-          size: 22,
+          color: isDarkTheme ? AppColors.AppBg : AppColors.AppPrimary,
+          size: 24,
           opacity: 1,
         ),
       ),

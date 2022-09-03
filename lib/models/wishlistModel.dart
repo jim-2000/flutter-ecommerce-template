@@ -1,7 +1,7 @@
 //
 import 'package:flutter/cupertino.dart';
 
-class WishListModel {
+class WishListModel with ChangeNotifier {
   final String wishId;
   final String title;
   final String imageUrl;

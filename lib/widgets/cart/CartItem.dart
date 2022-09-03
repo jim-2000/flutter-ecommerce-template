@@ -1,16 +1,22 @@
 import 'dart:developer';
 
+import 'package:app/models/cartModel.dart';
+import 'package:app/provider/cartProvider.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartIdtem extends StatelessWidget {
-  const CartIdtem({Key? key, required this.name, required this.img})
-      : super(key: key);
-  final String name, img;
+  CartIdtem({Key? key, required this.cartPId}) : super(key: key);
+  String cartPId;
+
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final cartAttribute = Provider.of<Cart>(context);
     return InkWell(
       onTap: () {
-        log("cart item $img");
+        log("cart item ");
       },
       child: Card(
         elevation: 20,
@@ -36,7 +42,7 @@ class CartIdtem extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage(img),
+                        image: NetworkImage(cartAttribute.imageUrl),
                       ),
                     ),
                   ),
@@ -55,7 +61,7 @@ class CartIdtem extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              name.toString(),
+                              cartAttribute.title.toString(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(fontSize: 18),
@@ -65,7 +71,7 @@ class CartIdtem extends StatelessWidget {
                             padding: const EdgeInsets.only(right: 8.0),
                             child: InkWell(
                               onTap: () => {
-                                log("cart item $name"),
+                                cartProvider.removeFromCart(cartPId),
                               },
                               child: const Icon(
                                 Icons.close,
@@ -74,6 +80,15 @@ class CartIdtem extends StatelessWidget {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                        width: double.infinity,
+                        child: Text(
+                          cartAttribute.cartId.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ),
                       const SizedBox(
                         height: 5,
@@ -88,10 +103,13 @@ class CartIdtem extends StatelessWidget {
                           ),
                           Flexible(
                             child: Text(
-                              "\$ ${50.toString()}",
+                              "\$ ${cartAttribute.price.toString()}",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 16),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -99,42 +117,64 @@ class CartIdtem extends StatelessWidget {
                       //
 
                       const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          const Text(
-                            "Subtotal :",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Flexible(
-                            child: Text(
-                              "\$ ${(50 * 2).toStringAsFixed(2)}",
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ],
-                      ),
-                      //
-                      const SizedBox(
                         height: 10,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.remove)),
-                          const Text(
-                            "${1}",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.add)),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    if (cartAttribute.quantity > 1) {
+                                      cartProvider.decrimentItem(cartPId);
+                                    } else {
+                                      cartProvider.removeFromCart(cartPId);
+                                    }
+                                  },
+                                  icon: const Icon(Icons.remove),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "${cartAttribute.quantity}",
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: Container(
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 2,
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: IconButton(
+                                    onPressed: () {
+                                      cartProvider.incrimentItem(cartPId);
+                                    },
+                                    icon: const Icon(Icons.add)),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

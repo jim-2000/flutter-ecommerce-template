@@ -1,7 +1,7 @@
 //
 import 'package:flutter/cupertino.dart';
 
-class Cart {
+class Cart with ChangeNotifier {
   final String cartId;
   final String title;
   final String imageUrl;

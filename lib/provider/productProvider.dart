@@ -10,6 +10,11 @@ class ProductProvider extends ChangeNotifier {
     return _product;
   }
 
+// get latest product
+  List<Product> getLatestProduct() {
+    return _product.sublist(0, 10);
+  }
+
   // get product by id
   Product getProductById(String pId) {
     return _product.firstWhere((element) => element.id == pId);

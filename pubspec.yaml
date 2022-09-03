@@ -46,6 +46,10 @@ dependencies:
   carousel_slider: ^4.1.1
   badges: ^2.0.3
   uuid: ^3.0.6
+  empty_widget: ^0.0.5
+  internet_connection_checker: ^0.0.1+4
+  simple_animations: ^4.2.0
+  animate_do: ^2.1.0
 
 
 dev_dependencies:

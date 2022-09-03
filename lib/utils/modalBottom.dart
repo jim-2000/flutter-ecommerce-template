@@ -20,6 +20,8 @@ class AppModalBottomSheet {
   static showDialoge({
     required String title,
     required String description,
+    VoidCallback? onpress,
+    String? buttonTitle,
   }) {
     return Alert(
       context: Get.context!,
@@ -29,11 +31,11 @@ class AppModalBottomSheet {
       buttons: [
         DialogButton(
           color: Colors.greenAccent,
-          onPressed: () => Get.back(),
+          onPressed: onpress ?? () => Get.back(),
           width: 120,
-          child: const Text(
-            "ok",
-            style: TextStyle(color: Colors.white, fontSize: 20),
+          child: Text(
+            buttonTitle ?? "ok",
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         )
       ],

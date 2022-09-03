@@ -152,7 +152,7 @@ class FeeedWidget extends StatelessWidget {
                         cartProvider.addToCart(products.id, products);
                       },
                       icon: Icon(
-                        cartProvider.cartList.containsKey(products.id)
+                        cartProvider.isItemInCart(products.id)
                             ? Icons.shopping_cart
                             : Icons.add_shopping_cart,
                         color: Colors.deepOrange,

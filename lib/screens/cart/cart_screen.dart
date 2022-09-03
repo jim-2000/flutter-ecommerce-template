@@ -1,11 +1,16 @@
 import 'dart:developer';
 
+import 'package:app/models/cartModel.dart';
+import 'package:app/provider/cartProvider.dart';
+import 'package:app/provider/productProvider.dart';
+import 'package:app/screens/payment/payment.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/cart/CartItem.dart';
 import 'package:app/widgets/cart/emptyCart.dart';
 import 'package:app/widgets/home/feedWidget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -53,28 +58,52 @@ class CartScreen extends StatelessWidget {
         'catText': 'Herbs',
       },
     ];
-    final List cartList = [];
-    return cartItem.isEmpty
-        ? EmptyCard(
-            imgss: cartItem[0]['imgPath'],
-            title: "Your Cart is empty Try shopping",
-            subtitle:
-                "Please add something on your cart then checkout get more discount",
-            onButtonTap: () {
-              log("empty cart button tapped");
-            },
+
+    // provider
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final ProductProvider latestProduct = Provider.of<ProductProvider>(context);
+
+    //
+    return cartProvider.cartList.isEmpty
+        ? Scaffold(
+            body: EmptyCard(
+              imgss: cartItem[0]['imgPath'],
+              title: "Your Cart is empty Try shopping",
+              subtitle:
+                  "Please add something on your cart then checkout get more discount",
+              onButtonTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: AppColors.AppPrimary,
-              title: const Text("CART ${10}"),
+              title: Consumer<CartProvider>(
+                builder: (context, cp, _) {
+                  return Text("CART ${cartProvider.cartList.length}");
+                },
+              ),
               actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite,
-                      color: Colors.black,
-                    ))
+                InkWell(
+                  onTap: () {
+                    cartProvider.clearCart();
+                  },
+                  child: Tooltip(
+                    enableFeedback: true,
+                    message: "clear cart",
+                    textStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 12,
+                    ),
+                    child: const Icon(
+                      Icons.delete_forever_outlined,
+                      size: 30,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
               ],
             ),
             body: SingleChildScrollView(
@@ -93,11 +122,17 @@ class CartScreen extends StatelessWidget {
                       height: sizes.height * 0.65,
                       child: ListView.builder(
                         itemBuilder: (context, i) {
-                          return CartIdtem(
-                              name: cartItem[i]['catText'],
-                              img: cartItem[i]['imgPath']);
+                          final cartItem =
+                              cartProvider.cartList.values.toList()[i];
+                          final cID = cartProvider.cartList.keys.toList()[i];
+                          return ChangeNotifierProvider.value(
+                            value: cartItem,
+                            child: CartIdtem(
+                              cartPId: cID,
+                            ),
+                          );
                         },
-                        itemCount: cartItem.length,
+                        itemCount: cartProvider.cartList.length,
                       ),
                     ),
                     const SizedBox(
@@ -117,12 +152,14 @@ class CartScreen extends StatelessWidget {
                       width: sizes.width,
                       child: ListView.builder(
                         itemBuilder: (ctx, i) {
-                          return const Card(
+                          return Card(
                             elevation: 20,
-                            // child: FeeedWidget(),
+                            child: FeeedWidget(
+                              products: latestProduct.getLatestProduct()[i],
+                            ),
                           );
                         },
-                        itemCount: 10,
+                        itemCount: latestProduct.getLatestProduct().length,
                         scrollDirection: Axis.horizontal,
                       ),
                     ),
@@ -152,7 +189,7 @@ class CartScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "\$500.00",
+                          "\$ ${cartProvider.totalAmount}",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -180,7 +217,15 @@ class CartScreen extends StatelessWidget {
                               Size(MediaQuery.of(context).size.width / 3, 55),
                           primary: AppColors.AppPrimary,
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushNamed(PaymentScreen.routeName, arguments: {
+                            "productid": [cartProvider.cartList.keys.toList()],
+                            "productprice": [
+                              cartProvider.totalAmount,
+                            ],
+                          });
+                        },
                         child: Text(
                           "Place order".toUpperCase(),
                           style: const TextStyle(

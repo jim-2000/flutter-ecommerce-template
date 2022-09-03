@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app/provider/OrderProvider.dart';
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/provider/productProvider.dart';
@@ -12,6 +13,9 @@ import 'package:app/screens/cart/cart_screen.dart';
 import 'package:app/screens/catagories/catagoriesProduct.dart';
 import 'package:app/screens/homeScreens/detailsScreen.dart';
 import 'package:app/screens/homeScreens/homeScreen.dart';
+import 'package:app/screens/order/OrderScreen.dart';
+import 'package:app/screens/payment/payment.dart';
+import 'package:app/screens/wishlist/wishlist.dart';
 import 'package:app/services/dark_them_pref.dart';
 import 'package:app/utils/themeData.dart';
 import 'package:app/screens/bottom_bar_Screen.dart';
@@ -68,6 +72,10 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: (_) => CartProvider(),
         ),
+        // cart provider
+        ChangeNotifierProvider(
+          create: (_) => OrderProvider(),
+        ),
       ],
       child: Consumer<DarkTheemProvider>(
         builder: (contex, darkTheemProvider, _) {
@@ -90,7 +98,11 @@ class _MyAppState extends State<MyApp> {
               BottomBarScreen.routeName: (context) => const BottomBarScreen(),
               DetailsScreen.routeName: (context) => DetailsScreen(),
               CartScreen.routeName: (context) => const CartScreen(),
-              CatagoryProduct.routeName: (context) => CatagoryProduct(),
+              CatagoryProduct.routeName: (context) => const CatagoryProduct(),
+              WishlistScreen.routeName: (context) => const WishlistScreen(),
+              OrderScreen.routeName: (context) => const OrderScreen(),
+              // payment route
+              PaymentScreen.routeName: (context) => const PaymentScreen(),
             },
           );
         },

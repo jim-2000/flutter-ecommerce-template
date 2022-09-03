@@ -1,8 +1,12 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/screens/auth/loginScreen.dart';
 import 'package:app/screens/auth/resetPassword.dart';
+import 'package:app/screens/order/OrderScreen.dart';
+import 'package:app/screens/wishlist/wishlist.dart';
+import 'package:app/utils/modalBottom.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -149,75 +153,37 @@ class _UserScreenState extends State<UserScreen> {
                                 },
                               ),
                               _listTiles(
-                                title: "Address",
-                                subtitle: "Wow subtitle",
-                                leadingIcon: Icons.location_on,
-                                ontap: () async {
-                                  await _showDialoge(
-                                      title: "Update Address",
-                                      widget: TextField(
-                                        controller: _editingController,
-                                        onChanged: (s) {
-                                          setState(() {
-                                            _editingController.text = s;
-                                          });
-                                        },
-                                        maxLines: 4,
-                                        decoration: const InputDecoration(
-                                          hintText: "Dhaka,124",
-                                          border: OutlineInputBorder(),
-                                        ),
-                                      ),
-                                      iconButton: [
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          icon: const Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                            size: 24,
-                                          ),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          icon: const Icon(
-                                            Icons.done,
-                                            color: Colors.green,
-                                            size: 24,
-                                          ),
-                                        ),
-                                      ]);
-                                },
-                              ),
-                              _listTiles(
                                 title: "Order",
                                 subtitle: "check you order details",
                                 leadingIcon: Icons.shopping_bag,
-                                ontap: () async {},
+                                ontap: () async {
+                                  Navigator.pushNamed(
+                                      context, OrderScreen.routeName);
+                                },
                               ),
                               _listTiles(
                                 title: "WishList",
                                 leadingIcon: Icons.favorite,
                                 subtitle: "Your favorite items are there",
-                                ontap: () {},
+                                ontap: () {
+                                  Navigator.of(context)
+                                      .pushNamed(WishlistScreen.routeName);
+                                },
                               ),
                               _listTiles(
-                                title: "Viewed",
-                                leadingIcon: Icons.remove_red_eye,
+                                title: "Delivery Address",
+                                leadingIcon: Icons.location_on,
                                 ontap: () async {
-                                  log("views");
                                   await showMaterialModalBottomSheet(
                                     context: context,
                                     builder: (context) => SingleChildScrollView(
+                                      keyboardDismissBehavior:
+                                          ScrollViewKeyboardDismissBehavior
+                                              .manual,
                                       controller:
                                           ModalScrollController.of(context),
-                                      child: const SizedBox(
-                                        height: 500,
-                                        child: Text("Viewd Adress"),
-                                      ),
+                                      physics: const ClampingScrollPhysics(),
+                                      child: _modal(context),
                                     ),
                                   );
                                 },
@@ -234,43 +200,16 @@ class _UserScreenState extends State<UserScreen> {
                                 title: "Logout",
                                 leadingIcon: Icons.logout_outlined,
                                 ontap: () async {
-                                  await _showDialoge(
-                                    title: "Logout",
-                                    widget: Container(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child:
-                                          const Text("Do you want to Logout"),
-                                    ),
-                                    iconButton: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              LoginScreen.routeName,
-                                              (route) => false);
-                                        },
-                                        child: const Text(
-                                          "Log out",
-                                          style: TextStyle(
-                                            color: Colors.tealAccent,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text(
-                                          "Cencel",
-                                          style: TextStyle(
-                                            color: Colors.red,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
+                                  await AppModalBottomSheet.showDialoge(
+                                      title: "Confirm Logout",
+                                      description: "Are you sure to logout?",
+                                      buttonTitle: "Logout",
+                                      onpress: () {
+                                        Navigator.of(context)
+                                            .pushNamedAndRemoveUntil(
+                                                LoginScreen.routeName,
+                                                (route) => false);
+                                      });
                                 },
                               ),
                             ],
@@ -281,6 +220,100 @@ class _UserScreenState extends State<UserScreen> {
                   )
                 ],
               ));
+  }
+
+  Widget _modal(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      height: MediaQuery.of(context).size.height * 0.4,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 20,
+            child: Text(
+              "Delivery Address",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: 200,
+            width: double.infinity,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white54,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _addressData(
+                    title: "Street",
+                    subtitle: "123/A , ABC, XYZ",
+                  ),
+                  _addressData(
+                    title: "City",
+                    subtitle: "xyz",
+                  ),
+                  _addressData(
+                    title: "State",
+                    subtitle: "xyz",
+                  ),
+                  _addressData(
+                    title: "Phone",
+                    subtitle: "+880 17XXXXXXXX",
+                  ),
+                  _addressData(
+                    title: "zip",
+                    subtitle: "2260",
+                  ),
+                  _addressData(
+                    title: "Name",
+                    subtitle: "Hoossain",
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Text _addressData({required String title, required String subtitle}) {
+    return Text.rich(
+      TextSpan(
+        text: "$title: ",
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+        children: [
+          TextSpan(
+            text: subtitle,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _listTiles(

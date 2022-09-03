@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: products.length,
                 itemBuilder: (context, i) {
                   return Card(
-                    elevation: 20,
+                    elevation: 2,
                     child: Bestshopwidgets(
                       products: products[i],
                     ),

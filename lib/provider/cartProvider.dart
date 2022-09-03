@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:app/models/cartModel.dart';
 import 'package:app/models/productModel.dart';
@@ -10,44 +10,49 @@ class CartProvider extends ChangeNotifier {
   // total amount
   double get totalAmount {
     double total = 0.0;
-    _cartList.forEach((key, cartItem) {
-      total += cartItem.price * cartItem.quantity;
+    _cartList.forEach((key, cart) {
+      total += cart.quantity * cart.price;
     });
-    return total;
+    return total.floor().toDouble();
   }
 
   // add to cart
-  void addToCart(String pId, Product product) {
-    if (_cartList.containsKey(pId)) {
+  void addToCart(String cId, Product product) {
+    //
+    if (_cartList.containsKey(cId)) {
       _cartList.update(
-        pId,
+        cId,
         (value) => Cart(
           cartId: value.cartId,
           title: value.title,
           imageUrl: value.imageUrl,
           price: value.price,
-          quantity: value.quantity,
+          quantity: value.quantity + 1,
         ),
       );
+      print("same product added multiple time");
     } else {
       _cartList.putIfAbsent(
-        pId,
+        cId,
         () => Cart(
-            cartId: DateTime.now().toIso8601String(),
-            title: product.title,
-            imageUrl: product.imageUrl[0],
-            price: product.price,
-            quantity: 1),
+          cartId: DateTime.now().toIso8601String(),
+          title: product.title,
+          imageUrl: product.imageUrl[0],
+          price: product.price,
+          quantity: 1,
+        ),
       );
+      print(" product added  =======");
     }
     notifyListeners();
+    //
   }
 
   // decriment from cart item quantity
-  void decrimentItem(String pId) {
-    if (_cartList.containsKey(pId)) {
+  void decrimentItem(String cId) {
+    if (_cartList.containsKey(cId)) {
       _cartList.update(
-        pId,
+        cId,
         (value) => Cart(
           cartId: value.cartId,
           title: value.title,
@@ -57,14 +62,15 @@ class CartProvider extends ChangeNotifier {
         ),
       );
     }
+
     notifyListeners();
   }
 
   // incriment from cart item quantity
-  void incrimentItem(String pId) {
-    if (_cartList.containsKey(pId)) {
+  void incrimentItem(String cId) {
+    if (_cartList.containsKey(cId)) {
       _cartList.update(
-        pId,
+        cId,
         (value) => Cart(
           cartId: value.cartId,
           title: value.title,
@@ -78,8 +84,9 @@ class CartProvider extends ChangeNotifier {
   }
 
   // remove from cart
-  void removeFromCart(String pId) {
-    _cartList.remove(pId);
+  void removeFromCart(String cId) {
+    _cartList.remove(cId);
+    log(_cartList.length.toString());
     notifyListeners();
   }
 
@@ -87,5 +94,14 @@ class CartProvider extends ChangeNotifier {
   void clearCart() {
     _cartList.clear();
     notifyListeners();
+  }
+
+  // is item in cart
+  bool isItemInCart(String cId) {
+    if (_cartList.containsKey(cId)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

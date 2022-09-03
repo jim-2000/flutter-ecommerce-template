@@ -1,6 +1,8 @@
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/productProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
+import 'package:app/screens/cart/cart_screen.dart';
+import 'package:app/screens/wishlist/wishlist.dart';
 import 'package:app/widgets/cart/emptyCart.dart';
 import 'package:app/widgets/home/feedWidget.dart';
 import 'package:badges/badges.dart';
@@ -34,9 +36,11 @@ class CatagoryProduct extends StatelessWidget {
               badgeContent: Text(wishlist.wishList.length.toString()),
               position: BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(WishlistScreen.routeName);
+                },
                 icon: const Icon(
-                  Icons.favorite,
+                  Icons.favorite_border,
                   color: Colors.deepPurple,
                 ),
               ),
@@ -50,7 +54,7 @@ class CatagoryProduct extends StatelessWidget {
               position: BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
                 onPressed: () {
-                  // Navigator.of(context).pushNamed(WishList.routeName);
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
                 },
                 icon: const Icon(
                   Icons.shopping_cart,
