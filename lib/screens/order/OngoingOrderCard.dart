@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:app/models/OrderModel.dart';
@@ -13,12 +14,16 @@ class OngoingOrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     // provider
     final orderAttribute = Provider.of<OrderModel>(context);
+    final methods = orderAttribute.paymentMethod.toString();
+
     return Card(
       elevation: 20,
       color: Colors.white.withOpacity(0.8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
+      borderOnForeground: true,
+      clipBehavior: Clip.antiAlias,
       margin: const EdgeInsets.all(5.0),
       child: Container(
         padding: const EdgeInsets.all(5.0),
@@ -45,7 +50,6 @@ class OngoingOrderCard extends StatelessWidget {
                         width: 100,
                         height: 100,
                         decoration: BoxDecoration(
-                          color: Colors.grey,
                           borderRadius: BorderRadius.circular(10),
                           image: const DecorationImage(
                             image:
@@ -70,6 +74,7 @@ class OngoingOrderCard extends StatelessWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 14,
+                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -80,11 +85,12 @@ class OngoingOrderCard extends StatelessWidget {
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
-                              color: Colors.grey,
+                              color: Colors.black,
                             ),
                           ),
                           Text(
-                            'Payment: ${orderAttribute.ispaymantDone ? 'Yes' : 'Cash on delivery'}',
+                            'Payment: ${methods.substring(methods.indexOf('.') + 1)}',
+                            // maxLines: 1,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -111,7 +117,9 @@ class OngoingOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        log(orderAttribute.orderId);
+                      },
                       icon: const Icon(
                         Icons.copy,
                         size: 14,

@@ -1,13 +1,11 @@
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/screens/cart/cart_screen.dart';
 import 'package:app/screens/catagories/catagories.dart';
-
 import 'package:app/screens/homeScreens/homeScreen.dart';
 import 'package:app/screens/user/userScreen.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class BottomBarScreen extends StatefulWidget {
@@ -22,8 +20,6 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   int _selectedINdex = 0;
 
 //
-
-  //
 
   @override
   void _selecxtedIndex(int index) {
@@ -43,12 +39,12 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
       // const CatagoryScreen(),
       Categories(),
       const CartScreen(),
-      const UserScreen(),
       Container(
         child: const Center(
-          child: Text('Settings'),
+          child: Text('Chating'),
         ),
       ),
+      const UserScreen(),
     ];
 //
 
@@ -64,7 +60,6 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
         selectedIndex: _selectedINdex,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         showElevation: true,
-
         // backgroundColor: AppColors.AppBlack,
         items: [
           BottomNavyBarItem(
@@ -101,20 +96,21 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),
+          //
           BottomNavyBarItem(
-            icon: Icon(
-                _selectedINdex == 3 ? Icons.people : Icons.people_alt_outlined),
-            title: const Text('User'),
+            icon: Icon(_selectedINdex == 3
+                ? Icons.message_sharp
+                : Icons.message_sharp),
+            title: const Text('Chat'),
             activeColor: AppColors.AppPrimary,
             inactiveColor: themeState.getDark
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),
-          //
           BottomNavyBarItem(
             icon: Icon(
-                _selectedINdex == 4 ? Icons.people : Icons.people_alt_outlined),
-            title: const Text('b'),
+                _selectedINdex == 4 ? Icons.settings : Icons.settings_outlined),
+            title: const Text('Settings'),
             activeColor: AppColors.AppPrimary,
             inactiveColor: themeState.getDark
                 ? Colors.lightBlue.shade200
@@ -129,20 +125,20 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   }
 }
 
-class ShowBottomMOdal extends StatelessWidget {
-  const ShowBottomMOdal({Key? key}) : super(key: key);
+// class ShowBottomMOdal extends StatelessWidget {
+//   const ShowBottomMOdal({Key? key}) : super(key: key);
 
-  @override
-  build(BuildContext context) async {
-    return await showMaterialModalBottomSheet(
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        controller: ModalScrollController.of(context),
-        child: const SizedBox(
-          height: 500,
-          child: Text("Viewd Adress"),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   build(BuildContext context) async {
+//     return await showMaterialModalBottomSheet(
+//       context: context,
+//       builder: (context) => SingleChildScrollView(
+//         controller: ModalScrollController.of(context),
+//         child: const SizedBox(
+//           height: 500,
+//           child: Text("Viewd Adress"),
+//         ),
+//       ),
+//     );
+//   }
+// }

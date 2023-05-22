@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:app/models/cartModel.dart';
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/productProvider.dart';
+import 'package:app/screens/bottom_bar_Screen.dart';
+import 'package:app/screens/homeScreens/homeScreen.dart';
 import 'package:app/screens/payment/payment.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
@@ -72,7 +74,7 @@ class CartScreen extends StatelessWidget {
               subtitle:
                   "Please add something on your cart then checkout get more discount",
               onButtonTap: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(BottomBarScreen.routeName);
               },
             ),
           )

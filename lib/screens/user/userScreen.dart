@@ -1,17 +1,14 @@
 import 'dart:developer';
 import 'dart:ui';
-
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/screens/auth/loginScreen.dart';
 import 'package:app/screens/auth/resetPassword.dart';
 import 'package:app/screens/order/OrderScreen.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
+import 'package:app/utils/appColors.dart';
 import 'package:app/utils/modalBottom.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/appColors.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({Key? key}) : super(key: key);
@@ -174,18 +171,18 @@ class _UserScreenState extends State<UserScreen> {
                                 title: "Delivery Address",
                                 leadingIcon: Icons.location_on,
                                 ontap: () async {
-                                  await showMaterialModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => SingleChildScrollView(
-                                      keyboardDismissBehavior:
-                                          ScrollViewKeyboardDismissBehavior
-                                              .manual,
-                                      controller:
-                                          ModalScrollController.of(context),
-                                      physics: const ClampingScrollPhysics(),
-                                      child: _modal(context),
-                                    ),
-                                  );
+                                  // await showMaterialModalBottomSheet(
+                                  //   context: context,
+                                  //   builder: (context) => SingleChildScrollView(
+                                  //     keyboardDismissBehavior:
+                                  //         ScrollViewKeyboardDismissBehavior
+                                  //             .manual,
+                                  //     controller:
+                                  //         ModalScrollController.of(context),
+                                  //     physics: const ClampingScrollPhysics(),
+                                  //     child: _modal(context),
+                                  //   ),
+                                  // );
                                 },
                               ),
                               _listTiles(

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:app/models/productModel.dart';
 import 'package:app/models/products.dart';
 import 'package:app/models/wishlistModel.dart';
@@ -12,10 +11,9 @@ import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/catagory/thumbCatagory_widget.dart';
 import 'package:app/widgets/home/feedWidget.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class DetailsScreen extends StatelessWidget {
@@ -56,14 +54,13 @@ class DetailsScreen extends StatelessWidget {
         ),
         actions: [
           Consumer<WishListProvider>(builder: (context, wp, _) {
-            return Badge(
-              toAnimate: true,
-              animationType: BadgeAnimationType.slide,
+            return badges.Badge(
+              badgeAnimation: const badges.BadgeAnimation.slide(),
               badgeContent: Text(
                 wishlist.wishList.length.toString(),
                 style: TextStyle(fontSize: 8),
               ),
-              position: BadgePosition.topEnd(top: 5, end: 7),
+              position: badges.BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(WishlistScreen.routeName);
@@ -75,14 +72,13 @@ class DetailsScreen extends StatelessWidget {
             );
           }),
           Consumer<CartProvider>(builder: (context, cp, _) {
-            return Badge(
-              toAnimate: true,
-              animationType: BadgeAnimationType.slide,
+            return badges.Badge(
+              badgeAnimation: const badges.BadgeAnimation.slide(),
               badgeContent: Text(
                 cartProvider.cartList.length.toString(),
                 style: TextStyle(fontSize: 8),
               ),
-              position: BadgePosition.topEnd(top: 5, end: 7),
+              position: badges.BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(CartScreen.routeName);

@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String routeName = '/homeScreen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -21,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const String routeName = '/homeScreen';
 //
 
   final List<String> _offerImg = [

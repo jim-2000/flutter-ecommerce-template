@@ -6,7 +6,7 @@ class AnimatedCard {
   //
 
   Widget animatedWidget() {
-    return PlayAnimation<double>(
+    return PlayAnimationBuilder<double>(
       // specify tween (from 50.0 to 200.0)
       tween: Tween(begin: 5.0, end: 200.0),
 
@@ -17,7 +17,7 @@ class AnimatedCard {
       curve: Curves.easeInOut,
 
       // use builder function
-      builder: (context, child, value) {
+      builder: (context, value, child) {
         // apply animated value obtained from builder function parameter
         return Container(
           width: value,

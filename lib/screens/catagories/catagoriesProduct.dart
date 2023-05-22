@@ -5,7 +5,7 @@ import 'package:app/screens/cart/cart_screen.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
 import 'package:app/widgets/cart/emptyCart.dart';
 import 'package:app/widgets/home/feedWidget.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,11 +30,10 @@ class CatagoryProduct extends StatelessWidget {
         title: Text(catagoryName),
         actions: [
           Consumer<WishListProvider>(builder: (context, wp, _) {
-            return Badge(
-              toAnimate: true,
-              animationType: BadgeAnimationType.slide,
+            return badges.Badge(
+              badgeAnimation: const badges.BadgeAnimation.slide(),
               badgeContent: Text(wishlist.wishList.length.toString()),
-              position: BadgePosition.topEnd(top: 5, end: 7),
+              position: badges.BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(WishlistScreen.routeName);
@@ -47,11 +46,10 @@ class CatagoryProduct extends StatelessWidget {
             );
           }),
           Consumer<CartProvider>(builder: (context, cp, _) {
-            return Badge(
-              toAnimate: true,
-              animationType: BadgeAnimationType.slide,
+            return badges.Badge(
+              badgeAnimation: const badges.BadgeAnimation.slide(),
               badgeContent: Text(cartProvider.cartList.length.toString()),
-              position: BadgePosition.topEnd(top: 5, end: 7),
+              position: badges.BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(CartScreen.routeName);

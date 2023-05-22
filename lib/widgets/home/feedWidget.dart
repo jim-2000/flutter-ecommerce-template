@@ -3,7 +3,7 @@ import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
 import 'package:app/screens/homeScreens/detailsScreen.dart';
 import 'package:app/utils/apputils.dart';
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -159,17 +159,17 @@ class FeeedWidget extends StatelessWidget {
                       )),
                 ),
               ),
-              Badge(
-                toAnimate: true,
-                animationType: BadgeAnimationType.fade,
-                animationDuration: Duration(milliseconds: 950),
-                shape: BadgeShape.square,
-                borderRadius: BorderRadius.circular(0),
-                badgeContent: Text(
+              badges.Badge(
+                badgeAnimation: const badges.BadgeAnimation.fade(),
+                badgeStyle: badges.BadgeStyle(
+                  shape: badges.BadgeShape.square,
+                  borderRadius: BorderRadius.circular(0),
+                  badgeColor: Colors.deepPurpleAccent,
+                ),
+                badgeContent: const Text(
                   "New",
                   style: TextStyle(color: Colors.white),
                 ),
-                badgeColor: Colors.deepPurpleAccent,
               ),
             ],
           ),
