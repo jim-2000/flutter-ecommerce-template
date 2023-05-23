@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:app/utils/toast_utils.dart';
+import 'package:http/http.dart' as http;
+
 class HeaderContentType {
   static String baseMimeType = 'application/octet-stream';
   static String json = 'application/json';
@@ -30,4 +35,54 @@ class HeadersRawData {
     data['Authorization'] = this.authorization ?? "";
     return data;
   }
+}
+
+///-------------------post method ----------------------------------------------------------------
+Future<http.Response> reqPostAPIMethod(
+  String apiUrl,
+  Map<String, String>? apiHeaders,
+  Map<String, dynamic>? apiBodyRawData,
+) {
+  late Future<http.Response> response;
+
+  try {
+    response = http.Client()
+        .post(Uri.parse(apiUrl), headers: apiHeaders, body: apiBodyRawData)
+        .timeout(const Duration(seconds: 300), onTimeout: () {
+      return response;
+    });
+  } on SocketException catch (_) {
+    showSimpleNotification(
+      msg: "Network connectivity not found. Try again.",
+    );
+  }
+  return response;
+}
+
+/// ---------------- get method ----------------------------------------------------------------
+
+Future<http.Response> reqGetAPIMethod(String apiUrl,
+    {Map<String, String>? apiHeaders}) {
+  late Future<http.Response> response;
+  try {
+    //Handle you network call code block in here
+    response = http.Client()
+        .get(
+      Uri.parse(apiUrl),
+      headers: apiHeaders,
+    )
+        .timeout(
+      const Duration(seconds: 200),
+      onTimeout: () {
+        return response;
+      },
+    );
+  } on SocketException catch (_) {
+    showSimpleNotification(
+      msg: "Network connectivity not found. Try again.",
+    );
+    //To handle Socket Exception in case network connection is not available during initiating your network call
+  }
+
+  return response;
 }

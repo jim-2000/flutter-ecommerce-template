@@ -5,8 +5,10 @@ import 'package:app/screens/auth/loginScreen.dart';
 import 'package:app/screens/auth/resetPassword.dart';
 import 'package:app/screens/order/OrderScreen.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
+import 'package:app/services/auth/AuthService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/modalBottom.dart';
+import 'package:app/utils/sf_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +49,7 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeState = Provider.of<DarkTheemProvider>(context);
+    final themeState = Provider.of<ThemeProvider>(context);
     return Scaffold(
         primary: false,
         body: isLoading
@@ -141,12 +143,12 @@ class _UserScreenState extends State<UserScreen> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                secondary: Icon(themeState.getDark
+                                secondary: Icon(themeState.isDark
                                     ? Icons.nightlight_outlined
                                     : Icons.sunny),
-                                value: themeState.getDark,
+                                value: themeState.isDark,
                                 onChanged: (bool value) {
-                                  themeState.setDarkTheme = value;
+                                  themeState.setDarkMode = value;
                                 },
                               ),
                               _listTiles(
@@ -198,15 +200,13 @@ class _UserScreenState extends State<UserScreen> {
                                 leadingIcon: Icons.logout_outlined,
                                 ontap: () async {
                                   await AppModalBottomSheet.showDialoge(
-                                      title: "Confirm Logout",
-                                      description: "Are you sure to logout?",
-                                      buttonTitle: "Logout",
-                                      onpress: () {
-                                        Navigator.of(context)
-                                            .pushNamedAndRemoveUntil(
-                                                LoginScreen.routeName,
-                                                (route) => false);
-                                      });
+                                    title: "Confirm Logout",
+                                    description: "Are you sure to logout?",
+                                    buttonTitle: "Logout",
+                                    onpress: () {
+                                      AuthServices().signOut(context);
+                                    },
+                                  );
                                 },
                               ),
                             ],

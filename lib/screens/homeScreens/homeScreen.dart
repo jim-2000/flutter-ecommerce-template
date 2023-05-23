@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final double hi = MediaQuery.of(context).size.height;
     final double we = MediaQuery.of(context).size.width;
-    final themeState = Provider.of<DarkTheemProvider>(context);
+    final themeState = Provider.of<ThemeProvider>(context);
     final List<Product> products =
         Provider.of<ProductProvider>(context).product();
     return Scaffold(

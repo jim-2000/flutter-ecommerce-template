@@ -48,7 +48,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
     ];
 //
 
-    final themeState = Provider.of<DarkTheemProvider>(context);
+    final themeState = Provider.of<ThemeProvider>(context);
     //
     return Scaffold(
       //
@@ -70,7 +70,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             ),
             title: const Text('Home'),
             activeColor: AppColors.AppPrimary,
-            inactiveColor: themeState.getDark
+            inactiveColor: themeState.isDark
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),
@@ -80,7 +80,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             ),
             title: const Text('Catagory'),
             activeColor: AppColors.AppPrimary,
-            inactiveColor: themeState.getDark
+            inactiveColor: themeState.isDark
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),
@@ -92,7 +92,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
             ),
             title: const Text('cart'),
             activeColor: AppColors.AppPrimary,
-            inactiveColor: themeState.getDark
+            inactiveColor: themeState.isDark
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),
@@ -103,7 +103,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 : Icons.message_sharp),
             title: const Text('Chat'),
             activeColor: AppColors.AppPrimary,
-            inactiveColor: themeState.getDark
+            inactiveColor: themeState.isDark
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),
@@ -112,7 +112,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 _selectedINdex == 4 ? Icons.settings : Icons.settings_outlined),
             title: const Text('Settings'),
             activeColor: AppColors.AppPrimary,
-            inactiveColor: themeState.getDark
+            inactiveColor: themeState.isDark
                 ? Colors.lightBlue.shade200
                 : AppColors.AppBlack,
           ),

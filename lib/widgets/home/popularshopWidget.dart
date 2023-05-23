@@ -11,11 +11,11 @@ class PopularShopWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final double hi = MediaQuery.of(context).size.height;
     final double we = MediaQuery.of(context).size.width;
-    final themeState = Provider.of<DarkTheemProvider>(context);
+    final themeState = Provider.of<ThemeProvider>(context);
 
     return Material(
       borderRadius: BorderRadius.circular(12),
-      color: themeState.getDark ? Colors.black : Colors.white,
+      color: themeState.isDark ? Colors.black : Colors.white,
       elevation: 3,
       child: Container(
         padding: const EdgeInsets.all(0),

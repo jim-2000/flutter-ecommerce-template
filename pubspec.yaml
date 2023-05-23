@@ -50,6 +50,11 @@ dependencies:
   simple_animations: ^5.0.0+3
   animate_do: ^3.0.2
   http: ^0.13.6
+  loading_indicator: ^3.1.0
+  introduction_screen: ^3.1.8
+  bot_toast: ^4.0.3
+  lottie: ^2.3.2
+  pinput: ^2.2.31
 
 
 dev_dependencies:
@@ -76,12 +81,12 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/
     - assets/images/offres/
     - assets/images/cat/
     - assets/images/landing/
     - assets/images/offres/
     - assets/images/icons/
-    - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

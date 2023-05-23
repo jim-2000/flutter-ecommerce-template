@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class Utils {
   BuildContext context;
   Utils(this.context);
-  bool get getTheme => Provider.of<DarkTheemProvider>(context).getDark;
+  bool get getTheme => Provider.of<ThemeProvider>(context).isDark;
   Color get color => getTheme ? Colors.white : Colors.black;
   Size get getScreenSize => MediaQuery.of(context).size;
 }

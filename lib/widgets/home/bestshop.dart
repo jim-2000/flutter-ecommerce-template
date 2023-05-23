@@ -13,7 +13,7 @@ class Bestshopwidgets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeState = Provider.of<DarkTheemProvider>(context);
+    final themeState = Provider.of<ThemeProvider>(context);
 
     return ListTile(
       tileColor: Theme.of(context).cardColor,
@@ -31,7 +31,7 @@ class Bestshopwidgets extends StatelessWidget {
             products.productBrandName,
             style: TextStyle(
               fontSize: 10,
-              color: themeState.getDark ? Colors.grey.shade200 : Colors.black,
+              color: themeState.isDark ? Colors.grey.shade200 : Colors.black,
             ),
           ),
           Row(
@@ -70,7 +70,7 @@ class Bestshopwidgets extends StatelessWidget {
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color:
-                      themeState.getDark ? Colors.grey.shade200 : Colors.black,
+                      themeState.isDark ? Colors.grey.shade200 : Colors.black,
                 ),
               ),
             ],
@@ -82,7 +82,7 @@ class Bestshopwidgets extends StatelessWidget {
         width: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: themeState.getDark ? Colors.white54 : Colors.black,
+          color: themeState.isDark ? Colors.white54 : Colors.black,
         ),
         child: const Icon(
           Icons.arrow_forward_ios,
