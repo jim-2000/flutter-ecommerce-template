@@ -85,7 +85,7 @@ Future checkb4transit(BuildContext context) async {
   if (isDataEnabled) {
     bool isOnBoardingComplete = await isOnBoardingDone();
     String token = await fetchStringValuesSF("authToken");
-    log(token + '>>>>>>>>>');
+
     await Future.delayed(const Duration(seconds: 2));
     // token check
     if (token != null && token.length > 5) {

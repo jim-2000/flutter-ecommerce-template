@@ -4,6 +4,7 @@ import 'package:app/landing.dart';
 import 'package:app/provider/OrderProvider.dart';
 import 'package:app/provider/auth/UserProvider.dart';
 import 'package:app/provider/cartProvider.dart';
+import 'package:app/provider/catagoriProvider.dart';
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/provider/productProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
@@ -13,6 +14,7 @@ import 'package:app/screens/auth/otpScreen.dart';
 import 'package:app/screens/auth/resetPassword.dart';
 import 'package:app/screens/auth/signupScreen.dart';
 import 'package:app/screens/cart/cart_screen.dart';
+import 'package:app/screens/catagories/catagories.dart';
 import 'package:app/screens/catagories/catagoriesProduct.dart';
 import 'package:app/screens/homeScreens/detailsScreen.dart';
 import 'package:app/screens/onboarding/onboarding.dart';
@@ -61,6 +63,9 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(
           create: (_) => UserProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CatagoriProvider(),
+        ),
         // product provider
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
@@ -99,7 +104,7 @@ class _AppState extends State<App> {
               BottomBarScreen.routeName: (context) => const BottomBarScreen(),
               DetailsScreen.routeName: (context) => DetailsScreen(),
               CartScreen.routeName: (context) => const CartScreen(),
-              CatagoryProduct.routeName: (context) => const CatagoryProduct(),
+              Categories.routeName: (context) => Categories(),
               WishlistScreen.routeName: (context) => const WishlistScreen(),
               OrderScreen.routeName: (context) => const OrderScreen(),
               // payment route

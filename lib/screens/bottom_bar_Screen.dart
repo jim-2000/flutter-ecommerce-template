@@ -1,12 +1,14 @@
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/screens/cart/cart_screen.dart';
 import 'package:app/screens/catagories/catagories.dart';
+import 'package:app/screens/catagories/catagory_Screen.dart';
 import 'package:app/screens/homeScreens/homeScreen.dart';
 import 'package:app/screens/user/userScreen.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:app/services/app/catagoriService.dart';
 
 class BottomBarScreen extends StatefulWidget {
   const BottomBarScreen({Key? key}) : super(key: key);
@@ -18,22 +20,24 @@ class BottomBarScreen extends StatefulWidget {
 
 class _BottomBarScreenState extends State<BottomBarScreen> {
   int _selectedINdex = 0;
-
+  final catagoriService = CatagoriServices();
 //
 
   @override
+  void initState() {
+    super.initState();
+    catagoriService.getAllCategories(context);
+  }
+
+//
   void _selecxtedIndex(int index) {
     setState(() {
       _selectedINdex = index;
     });
   }
 
-  //
-
   @override
   Widget build(BuildContext context) {
-//
-
     final List pages = [
       const HomeScreen(),
       // const CatagoryScreen(),
@@ -46,8 +50,6 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
       ),
       const UserScreen(),
     ];
-//
-
     final themeState = Provider.of<ThemeProvider>(context);
     //
     return Scaffold(

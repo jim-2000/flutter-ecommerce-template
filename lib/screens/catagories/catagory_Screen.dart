@@ -1,6 +1,8 @@
+import 'package:app/provider/catagoriProvider.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/widgets/catagory/catagoryCard.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CatagoryScreen extends StatelessWidget {
   const CatagoryScreen({Key? key}) : super(key: key);
@@ -8,6 +10,7 @@ class CatagoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _catagories = Provider.of<CatagoriProvider>(context);
     //
     List<Color> gridColor = [
       Colors.red.withOpacity(0.2),
@@ -94,7 +97,7 @@ class CatagoryScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GridView.builder(
-            itemCount: catInfo.length,
+            itemCount: _catagories.allCatagories.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 10,
@@ -103,9 +106,9 @@ class CatagoryScreen extends StatelessWidget {
             ),
             itemBuilder: (ctx, i) {
               return CategoriesWidgets(
-                title: catInfo[i]['catText'],
-                imgPath: catInfo[i]['imgPath'],
-                pathClr: gridColor[i],
+                title: _catagories.allCatagories[i].name,
+                imgPath: _catagories.allCatagories[i].catagoriImage!.url,
+                pathClr: gridColor[0],
               );
             }),
       ),

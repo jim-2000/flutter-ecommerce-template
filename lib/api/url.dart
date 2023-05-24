@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class Url {
   static String sandboxDomain = "http://192.168.0.105";
   static String port = '4000';
-  static String baseUrl = 'https://easy-shop-tis9.onrender.com/api/v1/';
+  static String baseUrl = 'https://easy-shop-tis9.onrender.com/api/v1';
   // static String baseUrl = 'http://192.168.0.104:$port/api';----------
 
   static String authbaseURl = "$baseUrl/auth";

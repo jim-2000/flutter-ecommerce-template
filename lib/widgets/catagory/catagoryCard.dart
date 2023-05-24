@@ -19,7 +19,7 @@ class CategoriesWidgets extends StatelessWidget {
     final double we = MediaQuery.of(context).size.width;
     return InkWell(
       onTap: () {
-        log("Catagory  tapped");
+        log(title);
       },
       child: Container(
         padding: const EdgeInsets.all(8),

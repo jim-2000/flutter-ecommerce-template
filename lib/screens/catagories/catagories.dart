@@ -1,9 +1,11 @@
 import 'package:app/models/productModel.dart';
 import 'package:app/models/products.dart';
 import 'package:app/provider/cartProvider.dart';
+import 'package:app/provider/catagoriProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
 import 'package:app/screens/cart/cart_screen.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
+import 'package:app/services/app/catagoriService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/catagory/catagorytwo.dart';
@@ -11,10 +13,17 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class Categories extends StatelessWidget {
+class Categories extends StatefulWidget {
+  static final String routeName = '/catagories';
+
   Categories({Key? key}) : super(key: key);
 
-//
+  @override
+  State<Categories> createState() => _CategoriesState();
+}
+
+class _CategoriesState extends State<Categories> {
+  final catagoriService = CatagoriServices();
   List<Map<String, dynamic>> catagoies = [
     // {
     //   'img': 'assets/images/offres/women.jpg"',
@@ -89,16 +98,22 @@ class Categories extends StatelessWidget {
   ];
 
 //
+  @override
+  void initState() {
+    super.initState();
+    catagoriService.getAllCategories(context);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Utils(context).getTheme;
     final size = Utils(context).getScreenSize;
     final List<Product> products = Products.products;
     // wishlist provider
     final WishListProvider wishlist = Provider.of<WishListProvider>(context);
     // cart provider
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final CatagoriProvider _catagoriProvider =
+        Provider.of<CatagoriProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Categories'),
@@ -108,7 +123,7 @@ class Categories extends StatelessWidget {
               badgeAnimation: const badges.BadgeAnimation.slide(),
               badgeContent: Text(
                 wishlist.wishList.length.toString(),
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
               position: badges.BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
@@ -127,7 +142,7 @@ class Categories extends StatelessWidget {
               badgeAnimation: const badges.BadgeAnimation.slide(),
               badgeContent: Text(
                 cartProvider.cartList.length.toString(),
-                style: TextStyle(color: Colors.black),
+                style: const TextStyle(color: Colors.black),
               ),
               position: badges.BadgePosition.topEnd(top: 5, end: 7),
               child: IconButton(
@@ -147,15 +162,19 @@ class Categories extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: ListView.builder(
           itemBuilder: (context, i) {
-            return CatagorytwoWidget(
-              product: products[i],
-              isRight: i.isOdd,
+            return SizedBox(
+              height: size.height * 0.24,
+              // Animate hare --------------------------------
+              child: CatagorytwoWidget(
+                cata: _catagoriProvider.allCatagories[i],
+                isRight: i.isOdd,
+              ),
             );
           },
-          itemCount: products.length,
+          itemCount: _catagoriProvider.allCatagories.length,
         ),
       ),
     );
