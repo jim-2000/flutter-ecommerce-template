@@ -5,7 +5,7 @@ class CatagoriProvider extends ChangeNotifier {
   bool isLoading = false;
 
   List<Catagori> _catagories = [];
-  List<Catagori> product() => _catagories;
+  List<Catagori> catagori() => _catagories;
   // get all product
   List<Catagori> get allCatagories => _catagories;
   //

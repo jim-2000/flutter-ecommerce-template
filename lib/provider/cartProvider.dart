@@ -1,91 +1,128 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app/models/cartModel.dart';
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
+import 'package:app/utils/sf_utils.dart';
+import 'package:app/utils/toast_utils.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 
 class CartProvider extends ChangeNotifier {
-  Map<String, Cart> _cartList = {};
-  Map<String, Cart> get cartList => _cartList;
+  List<Cart> _cartList = [];
+  List<Cart> get cartList => _cartList;
+
+  @mustCallSuper
+  Future syncCart() async {
+    List<String>? jsonList = await fetchListValuesSF('cartList');
+    List<Cart> prefList = [];
+    if (jsonList != null) {
+      for (String json in jsonList) {
+        dynamic datamap = jsonDecode(json);
+        Cart tempCart = Cart.fromJson(datamap);
+        prefList.add(tempCart);
+      }
+      _cartList = prefList;
+    }
+    notifyListeners();
+  }
+
   // total amount
   double get totalAmount {
     double total = 0.0;
-    _cartList.forEach((key, cart) {
-      total += cart.quantity * cart.price;
-    });
-    return total.floor().toDouble();
+    _cartList.forEach((element) => {total += element.price * element.quantity});
+    return total.toDouble();
   }
 
   // add to cart
   void addToCart(String cId, Product product) {
-    //
-    if (_cartList.containsKey(cId)) {
-      _cartList.update(
-        cId,
-        (value) => Cart(
-          cartId: value.cartId,
-          title: value.title,
-          imageUrl: value.imageUrl,
-          price: value.price,
-          quantity: value.quantity + 1,
-        ),
-      );
-      print("same product added multiple time");
+    Cart? alrady = _cartList.firstWhereOrNull((element) => element.id == cId);
+    if (alrady != null) {
+      // final update = _cartList.remove(alrady);
+      incrimentItem(cId);
+      //  clearfull list
+      clearValueFromSF('cartList');
+      List<String>? jsonList = [];
+      for (Cart cart in cartList) {
+        final json = jsonEncode(cart);
+        jsonList.add(json);
+      }
+      storeListToSF("cartList", jsonList);
+
+      log(jsonList.toString());
+      showSimpleNotification(title: 'Item updated successfully', msg: '');
     } else {
-      _cartList.putIfAbsent(
-        cId,
-        () => Cart(
-          cartId: DateTime.now().toIso8601String(),
-          title: product.title,
-          imageUrl: product.imageUrl[0],
-          price: product.price,
+      _cartList.add(
+        Cart(
+          id: product.id,
+          name: product.name,
+          img: product.thumbnail.url,
+          price: product.price.toDouble(),
           quantity: 1,
         ),
       );
-      print(" product added  =======");
+      //  clearfull list
+      clearValueFromSF('cartList');
+      List<String>? jsonList = [];
+      for (Cart cart in cartList) {
+        final json = jsonEncode(cart);
+        jsonList.add(json);
+      }
+      storeListToSF("cartList", jsonList);
+      showSimpleNotification(
+        title: 'Item added to cart',
+        msg: '',
+      );
     }
     notifyListeners();
-    //
   }
 
   // decriment from cart item quantity
   void decrimentItem(String cId) {
-    if (_cartList.containsKey(cId)) {
-      _cartList.update(
-        cId,
-        (value) => Cart(
-          cartId: value.cartId,
-          title: value.title,
-          imageUrl: value.imageUrl,
-          price: value.price,
-          quantity: value.quantity - 1,
-        ),
-      );
+    final cartItemIndex = _cartList.indexWhere((element) => element.id == cId);
+    if (cartItemIndex != -1) {
+      final cItem = _cartList[cartItemIndex].quantity--;
+      //  clearfull list
+      clearValueFromSF('cartList');
+      List<String>? jsonList = [];
+      for (Cart cart in cartList) {
+        final json = jsonEncode(cart);
+        jsonList.add(json);
+      }
+      storeListToSF("cartList", jsonList);
     }
-
+    log(totalAmount.toString());
     notifyListeners();
   }
 
   // incriment from cart item quantity
   void incrimentItem(String cId) {
-    if (_cartList.containsKey(cId)) {
-      _cartList.update(
-        cId,
-        (value) => Cart(
-          cartId: value.cartId,
-          title: value.title,
-          imageUrl: value.imageUrl,
-          price: value.price,
-          quantity: value.quantity + 1,
-        ),
-      );
+    final cartItemIndex = _cartList.indexWhere((element) => element.id == cId);
+    if (cartItemIndex != -1) {
+      final cItem = _cartList[cartItemIndex].quantity++;
+      //  clearfull list
+      clearValueFromSF('cartList');
+      List<String>? jsonList = [];
+      for (Cart cart in cartList) {
+        final json = jsonEncode(cart);
+        jsonList.add(json);
+      }
+      storeListToSF("cartList", jsonList);
     }
     notifyListeners();
   }
 
   // remove from cart
   void removeFromCart(String cId) {
-    _cartList.remove(cId);
+    _cartList.removeWhere((element) => element.id == cId);
+    //  clearfull list
+    clearValueFromSF('cartList');
+    List<String>? jsonList = [];
+    for (Cart cart in cartList) {
+      final json = jsonEncode(cart);
+      jsonList.add(json);
+    }
+    storeListToSF("cartList", jsonList);
     log(_cartList.length.toString());
     notifyListeners();
   }
@@ -93,15 +130,18 @@ class CartProvider extends ChangeNotifier {
   //
   void clearCart() {
     _cartList.clear();
+    clearValueFromSF('cartList');
     notifyListeners();
   }
 
   // is item in cart
   bool isItemInCart(String cId) {
-    if (_cartList.containsKey(cId)) {
+    final alrady = _cartList.indexWhere((element) => element.id == cId);
+
+    if (alrady != -1) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 }

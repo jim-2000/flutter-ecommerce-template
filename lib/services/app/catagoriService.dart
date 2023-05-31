@@ -13,25 +13,26 @@ import 'package:http/http.dart' as http;
 
 class CatagoriServices {
   void getAllCategories(BuildContext context) async {
+    final catagoriProvideR =
+        Provider.of<CatagoriProvider>(context, listen: false);
     try {
-      final catagoriProvideR =
-          Provider.of<CatagoriProvider>(context, listen: false);
+      catagoriProvideR.startLoader();
       http.Response res = await reqGetAPIMethod(Url.getAllCatagori);
-
       if (res.statusCode == 200) {
         final json = jsonDecode(res.body);
         final catagories = List.from(json)
             .map<Catagori>((catagori) => Catagori.fromJson(catagori))
             .toList();
         catagoriProvideR.getallCatagories(catagories);
+        catagoriProvideR.stopLoader();
       }
     } catch (e) {
-      print(e.toString());
       showSimpleNotification(
         msg: "",
         title: "Something went wrong",
         color: AppColors.AppPrimary,
       );
+      catagoriProvideR.stopLoader();
     }
   }
 }

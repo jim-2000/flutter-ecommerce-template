@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:app/animations/fadeAnimation.dart';
-import 'package:app/models/OrderModel.dart';
+
 import 'package:app/provider/OrderProvider.dart';
 import 'package:app/screens/order/OngoingOrderCard.dart';
 import 'package:app/utils/apputils.dart';

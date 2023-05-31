@@ -21,6 +21,8 @@ import 'package:app/screens/onboarding/onboarding.dart';
 import 'package:app/screens/order/OrderScreen.dart';
 import 'package:app/screens/payment/payment.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
+import 'package:app/services/app/catagoriService.dart';
+import 'package:app/services/app/productService.dart';
 import 'package:app/utils/sf_utils.dart';
 import 'package:app/utils/themeData.dart';
 import 'package:app/screens/bottom_bar_Screen.dart';
@@ -39,6 +41,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   ThemeProvider darkTheemProvider = ThemeProvider();
+
   getCurrentTheme() async {
     darkTheemProvider.setDarkMode = await fetchBoolValuesSF("isDark");
   }

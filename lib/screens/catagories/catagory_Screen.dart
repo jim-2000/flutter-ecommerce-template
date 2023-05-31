@@ -107,7 +107,7 @@ class CatagoryScreen extends StatelessWidget {
             itemBuilder: (ctx, i) {
               return CategoriesWidgets(
                 title: _catagories.allCatagories[i].name,
-                imgPath: _catagories.allCatagories[i].catagoriImage!.url,
+                imgPath: _catagories.allCatagories[i].catagoriImage.url,
                 pathClr: gridColor[0],
               );
             }),

@@ -1,4 +1,4 @@
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
 import 'package:app/models/products.dart';
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/catagoriProvider.dart';
@@ -100,8 +100,10 @@ class _CategoriesState extends State<Categories> {
 //
   @override
   void initState() {
+    Future.delayed(Duration.zero, () async {
+      catagoriService.getAllCategories(context);
+    });
     super.initState();
-    catagoriService.getAllCategories(context);
   }
 
   @override
@@ -166,7 +168,7 @@ class _CategoriesState extends State<Categories> {
         child: ListView.builder(
           itemBuilder: (context, i) {
             return SizedBox(
-              height: size.height * 0.24,
+              height: size.height * 0.14,
               // Animate hare --------------------------------
               child: CatagorytwoWidget(
                 cata: _catagoriProvider.allCatagories[i],

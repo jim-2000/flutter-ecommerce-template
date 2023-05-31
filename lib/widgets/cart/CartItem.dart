@@ -1,10 +1,9 @@
 import 'dart:developer';
-
 import 'package:app/models/cartModel.dart';
 import 'package:app/provider/cartProvider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
 class CartIdtem extends StatelessWidget {
   CartIdtem({Key? key, required this.cartPId}) : super(key: key);
@@ -37,14 +36,10 @@ class CartIdtem extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
+                  child: FancyShimmerImage(
+                    imageUrl: cartAttribute.img,
                     width: 130,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(cartAttribute.imageUrl),
-                      ),
-                    ),
+                    boxFit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(
@@ -61,7 +56,7 @@ class CartIdtem extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              cartAttribute.title.toString(),
+                              cartAttribute.name.toString(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(fontSize: 18),
@@ -81,15 +76,7 @@ class CartIdtem extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
-                        height: 15,
-                        width: double.infinity,
-                        child: Text(
-                          cartAttribute.cartId.toString(),
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ),
+
                       const SizedBox(
                         height: 5,
                       ),

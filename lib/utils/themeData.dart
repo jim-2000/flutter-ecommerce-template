@@ -1,5 +1,6 @@
 import 'package:app/utils/appColors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Style {
   static ThemeData themeData(bool isDarkTheme, BuildContext context) {
@@ -33,6 +34,18 @@ class Style {
           ),
       iconTheme: IconThemeData(
         color: isDarkTheme ? AppColors.AppIcon : AppColors.AppIconHover,
+      ),
+      textTheme: TextTheme(
+        displayLarge: GoogleFonts.urbanist(
+          fontSize: 40,
+          fontWeight: FontWeight.w700,
+          color: isDarkTheme ? AppColors.AppBg : AppColors.AppTextPrimary,
+        ), //headline1, 35
+        displayMedium: GoogleFonts.urbanist(
+          fontSize: 28,
+          fontWeight: FontWeight.w600,
+          color: isDarkTheme ? AppColors.AppBg : AppColors.AppTextPrimary,
+        ), //headline2, 30
       ),
     );
   }

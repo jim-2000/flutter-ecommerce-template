@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:ui';
 
-import 'package:app/models/OrderModel.dart';
 import 'package:app/models/wishlistModel.dart';
+import 'package:app/provider/OrderProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +13,8 @@ class OngoingOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // provider
-    final orderAttribute = Provider.of<OrderModel>(context);
-    final methods = orderAttribute.paymentMethod.toString();
+    final orderAttribute = Provider.of<OrderProvider>(context);
+    final methods = 0;
 
     return Card(
       elevation: 20,
@@ -68,7 +68,7 @@ class OngoingOrderCard extends StatelessWidget {
                         children: [
                           Flexible(
                             child: Text(
-                              orderAttribute.orderId.substring(0, 8),
+                              "orderAttribute.orderId.substring(0, 8)",
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -79,7 +79,7 @@ class OngoingOrderCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            orderAttribute.paymentId.substring(0, 8),
+                            "orderAttribute.paymentId.substring(0, 8)",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
@@ -89,7 +89,7 @@ class OngoingOrderCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Payment: ${methods.substring(methods.indexOf('.') + 1)}',
+                            'Payment:  }',
                             // maxLines: 1,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class OngoingOrderCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Total Product: ${orderAttribute.products.length}',
+                            'Total Product: ',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -117,9 +117,7 @@ class OngoingOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        log(orderAttribute.orderId);
-                      },
+                      onPressed: () {},
                       icon: const Icon(
                         Icons.copy,
                         size: 14,
@@ -127,7 +125,7 @@ class OngoingOrderCard extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        '\$${orderAttribute.price}',
+                        '\$${99}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 20,

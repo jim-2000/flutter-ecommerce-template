@@ -1,6 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 //To store key:val data
+storeListToSF(String stringKey, List<String> stringVal) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setStringList(stringKey, stringVal);
+}
+
 storeStringToSF(String stringKey, String stringVal) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString(stringKey, stringVal);
@@ -19,6 +24,13 @@ storeDoubleToSF(String doubleKey, double doubleVal) async {
 storeBoolToSF(String boolKey, bool boolVal) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setBool(boolKey, boolVal);
+}
+
+//To fetch key:val data
+Future<List<String>?> fetchListValuesSF(String stringKey) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+//Return String
+  return prefs.getStringList(stringKey);
 }
 
 //To fetch key:val data

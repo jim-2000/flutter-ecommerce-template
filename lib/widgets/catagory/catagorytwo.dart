@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:app/models/app/catagoriModel.dart';
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
 import 'package:app/screens/catagories/catagoriesProduct.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
@@ -33,9 +33,10 @@ class CatagorytwoWidget extends StatelessWidget {
           padding: const EdgeInsets.only(right: 10),
           margin: const EdgeInsets.all(5),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.white10,
-              border: const Border.symmetric()),
+            borderRadius: BorderRadius.circular(4),
+            color: Colors.white10,
+            border: const Border.symmetric(),
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +44,7 @@ class CatagorytwoWidget extends StatelessWidget {
               FancyShimmerImage(
                 imageUrl: cata.catagoriImage.url,
                 width: size.width / 2,
-                height: size.height * 0.22,
+                height: 250,
                 boxFit: BoxFit.fill,
               ),
               Column(

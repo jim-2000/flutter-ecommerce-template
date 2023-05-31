@@ -1,7 +1,9 @@
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
 import 'package:app/provider/dark_theme_provider.dart';
+import 'package:app/utils/appColors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
 class PopularShopWidget extends StatelessWidget {
   const PopularShopWidget({Key? key, required this.products}) : super(key: key);
@@ -15,35 +17,22 @@ class PopularShopWidget extends StatelessWidget {
 
     return Material(
       borderRadius: BorderRadius.circular(12),
-      color: themeState.isDark ? Colors.black : Colors.white,
-      elevation: 3,
+      color: themeState.isDark ? AppColors.AppIconHover : Colors.white,
+      elevation: 1,
       child: Container(
         padding: const EdgeInsets.all(0),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 5.0,
-              color: Colors.grey.withOpacity(0.2),
-              // blurStyle: BlurStyle.solid,
-              spreadRadius: 3.0,
-            )
-          ],
-        ),
+        decoration: BoxDecoration(),
         child: Stack(
           children: [
             Row(
               children: [
                 Hero(
                   tag: products.id,
-                  child: Container(
-                    width: 85,
+                  child: FancyShimmerImage(
+                    imageUrl: products.thumbnail.url,
                     height: 80,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        image: DecorationImage(
-                          image: NetworkImage(products.imageUrl[0]),
-                          fit: BoxFit.cover,
-                        )),
+                    width: 85,
+                    boxFit: BoxFit.cover,
                   ),
                 ),
                 const SizedBox(
@@ -54,7 +43,7 @@ class PopularShopWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${products.title.length > 12 ? products.title.substring(0, 10) + '...' : products.title}',
+                      '${products.name.length > 12 ? products.name.substring(0, 10) + '...' : products.name}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -64,7 +53,7 @@ class PopularShopWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      products.productBrandName,
+                      products.brand,
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,

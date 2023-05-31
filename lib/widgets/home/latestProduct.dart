@@ -1,8 +1,10 @@
 import 'dart:developer';
 
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
 import 'package:app/screens/homeScreens/detailsScreen.dart';
+import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
+import 'package:app/utils/navigation_utils.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +18,12 @@ class LatestProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = Utils(context).getScreenSize;
+    final theme = Utils(context).getTheme;
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Theme.of(context).cardColor,
+        color: theme ? AppColors.AppBg : AppColors.AppGrey,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -31,11 +34,12 @@ class LatestProduct extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(
-            context,
-            DetailsScreen.routeName,
-            arguments: products.id,
-          );
+          // Navigator.pushNamed(
+          //   context,
+          //   DetailsScreen.routeName,
+          //   arguments: products.id,
+          // );
+          pushNamedOnlyTo(routeName: DetailsScreen.routeName, arg: products.id);
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
@@ -47,13 +51,13 @@ class LatestProduct extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   FancyShimmerImage(
-                    imageUrl: products.imageUrl[0],
+                    imageUrl: products.thumbnail.url,
                     width: size.width / 2,
                     height: size.height * 0.15,
                     boxFit: BoxFit.cover,
                   ),
                   Text(
-                    products.title,
+                    products.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -63,7 +67,7 @@ class LatestProduct extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    products.catagories,
+                    products.catagoryName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -162,13 +166,13 @@ class LatestProduct extends StatelessWidget {
                   shape: badges.BadgeShape.square,
                   borderRadius: BorderRadius.circular(4),
                   elevation: 5,
-                  badgeColor: products.catagories == 'Phones'
+                  badgeColor: products.catagoryName == 'Phones'
                       ? Colors.red
                       : Colors.deepOrange,
                 ),
                 showBadge: true,
                 badgeContent: Text(
-                  products.catagories == 'Phones' ? 'New' : 'offer',
+                  products.catagoryName == 'Phones' ? 'New' : 'offer',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

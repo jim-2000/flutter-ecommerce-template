@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
 import 'package:app/models/products.dart';
 import 'package:app/models/wishlistModel.dart';
 import 'package:app/provider/cartProvider.dart';
@@ -7,6 +7,7 @@ import 'package:app/provider/productProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
 import 'package:app/screens/cart/cart_screen.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
+import 'package:app/services/app/productService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/catagory/thumbCatagory_widget.dart';
@@ -15,28 +16,38 @@ import 'package:badges/badges.dart' as badges;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
-class DetailsScreen extends StatelessWidget {
-  DetailsScreen({Key? key}) : super(key: key);
+class DetailsScreen extends StatefulWidget {
+  DetailsScreen({
+    Key? key,
+  }) : super(key: key);
   static const String routeName = '/details';
-//
+
+  @override
+  State<DetailsScreen> createState() => _DetailsScreenState();
+}
+
+class _DetailsScreenState extends State<DetailsScreen> {
+  final productService = ProductService();
+
   List<String> catagoies = [
     "assets/images/offres/women.jpg",
     "assets/images/offres/phone.jpg",
     'assets/images/cat/fruits.png'
   ];
+
   //
   @override
   Widget build(BuildContext context) {
 // app utils
-    String imgs = catagoies[0];
-    final theme = Utils(context).getTheme;
+
     final sizes = Utils(context).getScreenSize;
     // provider and services or model
-    final List<Product> products = Provider.of<ProductProvider>(context)
-        .getallProduct()
-        .getRange(0, 10)
-        .toList();
+    final List<Product> products =
+        Provider.of<ProductProvider>(context).product();
+
     final productId = ModalRoute.of(context)!.settings.arguments;
     final Product product = Provider.of<ProductProvider>(context)
         .getProductById(productId.toString());
@@ -44,13 +55,13 @@ class DetailsScreen extends StatelessWidget {
     final WishListProvider wishlist = Provider.of<WishListProvider>(context);
     // cart provider
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
-    final discount = product.price * 20 / 100;
+    final discount = product.oldPrice * 20 / 100;
     final newPrice = product.price - discount;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          product.title.toUpperCase(),
+          product.name.toUpperCase(),
         ),
         actions: [
           Consumer<WishListProvider>(builder: (context, wp, _) {
@@ -103,10 +114,10 @@ class DetailsScreen extends StatelessWidget {
               width: double.infinity,
               // child: Image.asset(imgs, fit: BoxFit.cover),\
               child: Swiper(
-                itemCount: product.imageUrl.length,
+                itemCount: product.images.length,
                 autoplay: false,
                 // control: const SwiperControl(),
-                pagination: product.imageUrl.length > 2
+                pagination: product.images.length > 1
                     ? const SwiperPagination(
                         builder: DotSwiperPaginationBuilder(
                           activeColor: Colors.white,
@@ -115,10 +126,14 @@ class DetailsScreen extends StatelessWidget {
                       )
                     : null,
                 itemBuilder: (context, i) {
-                  return Image.network(
-                    product.imageUrl[i],
-                    fit: BoxFit.fill,
+                  return FancyShimmerImage(
+                    imageUrl: product.images[i].url,
+                    boxFit: BoxFit.cover,
                   );
+                  // Image.network(
+                  //   product.images[i].url,
+                  //   fit: BoxFit.fill,
+                  // );
                 },
               ),
             ),
@@ -146,12 +161,9 @@ class DetailsScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Wow shop 124 Dubai ",
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.deepPurple,
-                              ),
+                            Text(
+                              product.name,
+                              style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             Row(
                               children: [
@@ -238,10 +250,10 @@ class DetailsScreen extends StatelessWidget {
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.9,
                               child: Text(
-                                product.title,
+                                product.name,
                                 style: const TextStyle(
                                   fontSize: 21,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
@@ -251,20 +263,20 @@ class DetailsScreen extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  "\$ ${newPrice.truncateToDouble()}",
+                                  "\$ ${product.price.truncateToDouble()}",
                                   style: const TextStyle(
                                     fontSize: 21,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 8,
+                                  width: 18,
                                 ),
                                 Text(
-                                  "\$ ${product.price}",
+                                  "\$ ${product.oldPrice}",
                                   style: const TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
-                                    fontSize: 21,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w300,
                                     decoration: TextDecoration.lineThrough,
                                   ),
@@ -272,9 +284,9 @@ class DetailsScreen extends StatelessWidget {
                                 const SizedBox(
                                   width: 7,
                                 ),
-                                const Text(
-                                  "(${20}% off)",
-                                  style: TextStyle(
+                                Text(
+                                  "(-${discount}% off)",
+                                  style: const TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
                                     fontSize: 21,
                                     color: Colors.deepOrangeAccent,
@@ -319,19 +331,19 @@ class DetailsScreen extends StatelessWidget {
                         ),
                         _detailsProducts(
                           title: "Brand",
-                          titleDetails: product.productBrandName,
+                          titleDetails: product.brand,
                         ),
                         _detailsProducts(
                           title: "Quantity",
-                          titleDetails: "${product.quantity - 10} left",
+                          titleDetails: "${product.currentStock - 10} left",
                         ),
                         _detailsProducts(
                           title: "Catagory",
-                          titleDetails: product.productCatagoryName,
+                          titleDetails: product.catagoryName,
                         ),
                         _detailsProducts(
                           title: "Popularity",
-                          titleDetails: "${product.quantity}+ reviews",
+                          titleDetails: "${product.currentStock}+ reviews",
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -345,7 +357,7 @@ class DetailsScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(8),
                           // color: Colors.black54,
                           width: double.infinity,
-                          child: product.quantity < 5
+                          child: product.currentStock < 5
                               ? Column(
                                   children: const [
                                     SizedBox(

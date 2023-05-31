@@ -7,10 +7,11 @@ import 'package:app/utils/apputils.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class FeeedWidget extends StatelessWidget {
-  const FeeedWidget({Key? key, required this.products}) : super(key: key);
+class FeedProduct extends StatelessWidget {
+  const FeedProduct({Key? key, required this.products}) : super(key: key);
   final Product products;
 
   @override
@@ -27,7 +28,7 @@ class FeeedWidget extends StatelessWidget {
 
     //
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: theme ? AppColors.AppBg : AppColors.AppGrey,
@@ -46,11 +47,12 @@ class FeeedWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FancyShimmerImage(
-                    imageUrl: products.thumbnail.url,
-                    width: 200,
-                    height: size.width * 0.18,
-                    boxFit: BoxFit.cover,
+                  Expanded(
+                    child: FancyShimmerImage(
+                      imageUrl: products.thumbnail.url,
+                      width: double.infinity,
+                      boxFit: BoxFit.cover,
+                    ),
                   ),
                   Text(
                     products.name,
@@ -168,11 +170,13 @@ class FeeedWidget extends StatelessWidget {
                 badgeStyle: badges.BadgeStyle(
                   shape: badges.BadgeShape.square,
                   borderRadius: BorderRadius.circular(0),
-                  badgeColor: Colors.deepPurpleAccent,
+                  badgeColor: products.totalSell > 5
+                      ? AppColors.AppPrimary
+                      : Colors.deepPurpleAccent,
                 ),
-                badgeContent: const Text(
-                  "New",
-                  style: TextStyle(color: Colors.white),
+                badgeContent: Text(
+                  products.totalSell > 5 ? "Hot" : "Asap",
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],

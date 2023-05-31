@@ -6,6 +6,7 @@ import 'package:app/provider/productProvider.dart';
 import 'package:app/screens/bottom_bar_Screen.dart';
 import 'package:app/screens/homeScreens/homeScreen.dart';
 import 'package:app/screens/payment/payment.dart';
+import 'package:app/services/app/orderService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
 import 'package:app/widgets/cart/CartItem.dart';
@@ -14,9 +15,22 @@ import 'package:app/widgets/home/feedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
   static const String routeName = '/cartScreen';
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  final orderservice = OrderService();
+  @override
+  void initState() {
+    orderservice.getmyOrder(context);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,51 +138,49 @@ class CartScreen extends StatelessWidget {
                       height: sizes.height * 0.65,
                       child: ListView.builder(
                         itemBuilder: (context, i) {
-                          final cartItem =
-                              cartProvider.cartList.values.toList()[i];
-                          final cID = cartProvider.cartList.keys.toList()[i];
+                          final cartItem = cartProvider.cartList[i];
+
                           return ChangeNotifierProvider.value(
                             value: cartItem,
                             child: CartIdtem(
-                              cartPId: cID,
+                              cartPId: cartItem.id,
                             ),
                           );
                         },
                         itemCount: cartProvider.cartList.length,
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    //
-                    const SizedBox(
-                      height: 40,
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: _listtitle(title: "You may also Like"),
-                      ),
-                    ),
-                    // List view
-                    SizedBox(
-                      height: sizes.height * 0.24,
-                      width: sizes.width,
-                      child: ListView.builder(
-                        itemBuilder: (ctx, i) {
-                          return Card(
-                            elevation: 20,
-                            child: FeeedWidget(
-                              products: latestProduct.getLatestProduct()[i],
-                            ),
-                          );
-                        },
-                        itemCount: latestProduct.getLatestProduct().length,
-                        scrollDirection: Axis.horizontal,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    //
+                    // const SizedBox(
+                    //   height: 20,
+                    // ),
+                    // //
+                    // const SizedBox(
+                    //   height: 40,
+                    //   child: Padding(
+                    //     padding: EdgeInsets.all(8),
+                    //     child: _listtitle(title: "You may also Like"),
+                    //   ),
+                    // ),
+                    // // List view
+                    // SizedBox(
+                    //   height: sizes.height * 0.24,
+                    //   width: sizes.width,
+                    //   child: ListView.builder(
+                    //     itemBuilder: (ctx, i) {
+                    //       return Card(
+                    //         elevation: 20,
+                    //         child: FeeedWidget(
+                    //           products: latestProduct.getLatestProduct()[i],
+                    //         ),
+                    //       );
+                    //     },
+                    //     itemCount: latestProduct.getLatestProduct().length,
+                    //     scrollDirection: Axis.horizontal,
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 100,
+                    // ),
                   ],
                 ),
               ),
@@ -220,13 +232,13 @@ class CartScreen extends StatelessWidget {
                           primary: AppColors.AppPrimary,
                         ),
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed(PaymentScreen.routeName, arguments: {
-                            "productid": [cartProvider.cartList.keys.toList()],
-                            "productprice": [
-                              cartProvider.totalAmount,
-                            ],
-                          });
+                          // Navigator.of(context)
+                          //     .pushNamed(PaymentScreen.routeName, arguments: {
+                          //   "productid": [cartProvider.cartList..toList()],
+                          //   "productprice": [
+                          //     cartProvider.totalAmount,
+                          //   ],
+                          // });
                         },
                         child: Text(
                           "Place order".toUpperCase(),

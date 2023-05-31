@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:app/models/productModel.dart';
+import 'package:app/models/app/productModel.dart';
 import 'package:app/models/wishlistModel.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -18,9 +18,9 @@ class WishListProvider extends ChangeNotifier {
         wId,
         () => WishListModel(
           wishId: DateTime.now().toIso8601String(),
-          title: product.title,
-          imageUrl: product.imageUrl[0],
-          price: product.price,
+          title: product.name,
+          imageUrl: product.thumbnail.url,
+          price: product.price.toDouble(),
         ),
       );
       log("add to wishlist");

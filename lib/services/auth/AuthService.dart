@@ -7,6 +7,8 @@ import 'package:app/screens/auth/loginScreen.dart';
 import 'package:app/screens/auth/resetPassword.dart';
 import 'package:app/screens/auth/signupScreen.dart';
 import 'package:app/screens/bottom_bar_Screen.dart';
+import 'package:app/services/app/catagoriService.dart';
+import 'package:app/services/app/productService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/navigation_utils.dart';
 import 'package:app/utils/sf_utils.dart';
@@ -34,7 +36,6 @@ class AuthServices {
         // set user provider
         final userdata = User.fromJson(jsonDecode(res.body));
         userProvider.setUserFromModel(userdata);
-        developer.log(userProvider.user.id);
         userProvider.stopLoader();
         pushNamedToReplace(routeName: BottomBarScreen.routeName);
       } else if (res.statusCode == 404) {
@@ -172,7 +173,7 @@ class AuthServices {
   // logout
   void signOut(BuildContext context) async {
     storeStringToSF('authToken', '');
-    pushNamedToAndRemoveUntil(routeName: LoginScreen.routeName);
+    pushNamedToReplace(routeName: LoginScreen.routeName);
   }
 
 // submit otp------------

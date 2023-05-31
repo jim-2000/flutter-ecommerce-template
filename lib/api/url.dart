@@ -8,6 +8,8 @@ class Url {
 
   static String authbaseURl = "$baseUrl/auth";
   static String catagoribaseURl = "$baseUrl/catagories";
+  static String productbaseURl = "$baseUrl/products";
+  static String orderbaseURl = "$baseUrl/order";
 
   //atuh
   static String verifyTokenUrl = "$authbaseURl/";
@@ -19,4 +21,10 @@ class Url {
   static String resetPasswordUrl = "$authbaseURl/resetPassword";
   // catagories
   static String getAllCatagori = "$catagoribaseURl/";
+  //
+  static String getAllProducts = "$productbaseURl/";
+  static String getSingelProduct = "$productbaseURl/";
+  //
+  static String getmyOrder = "$orderbaseURl/me";
+  static String newOrder = "$orderbaseURl/new";
 }
