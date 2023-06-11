@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:app/models/cartModel.dart';
 
@@ -375,4 +376,113 @@ class OrderItems {
 
   factory OrderItems.fromJson(String source) =>
       OrderItems.fromMap(json.decode(source));
+}
+
+class OrderFormModel {
+  final ShippingModel shippingInfo;
+  final PaymentInfo? paymentInfo;
+  final List<Cart> orderItems;
+  final int itemsPrice;
+  final int shippingPrice;
+  final int totalPrice;
+  final String? paymentToken;
+  final int paymentMethod;
+  OrderFormModel({
+    required this.shippingInfo,
+    this.paymentInfo,
+    required this.orderItems,
+    required this.itemsPrice,
+    required this.shippingPrice,
+    required this.totalPrice,
+    this.paymentToken,
+    required this.paymentMethod,
+  });
+
+  OrderFormModel copyWith({
+    ShippingModel? shippingInfo,
+    PaymentInfo? paymentInfo,
+    List<Cart>? orderItems,
+    int? itemsPrice,
+    int? shippingPrice,
+    int? totalPrice,
+    String? paymentToken,
+    int? paymentMethod,
+  }) {
+    return OrderFormModel(
+      shippingInfo: shippingInfo ?? this.shippingInfo,
+      paymentInfo: paymentInfo ?? this.paymentInfo,
+      orderItems: orderItems ?? this.orderItems,
+      itemsPrice: itemsPrice ?? this.itemsPrice,
+      shippingPrice: shippingPrice ?? this.shippingPrice,
+      totalPrice: totalPrice ?? this.totalPrice,
+      paymentToken: paymentToken ?? this.paymentToken,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'shippingInfo': shippingInfo.toMap(),
+      'paymentInfo': paymentInfo?.toMap(),
+      'orderItems': orderItems.map((x) => x.toMap()).toList(),
+      'itemsPrice': itemsPrice,
+      'shippingPrice': shippingPrice,
+      'totalPrice': totalPrice,
+      'paymentToken': paymentToken,
+      'paymentMethod': paymentMethod,
+    };
+  }
+
+  factory OrderFormModel.fromMap(Map<String, dynamic> map) {
+    return OrderFormModel(
+      shippingInfo: ShippingModel.fromMap(map['shippingInfo']),
+      paymentInfo: map['paymentInfo'] != null
+          ? PaymentInfo.fromMap(map['paymentInfo'])
+          : null,
+      orderItems:
+          List<Cart>.from(map['orderItems']?.map((x) => Cart.fromMap(x))),
+      itemsPrice: map['itemsPrice']?.toInt() ?? 0,
+      shippingPrice: map['shippingPrice']?.toInt() ?? 0,
+      totalPrice: map['totalPrice']?.toInt() ?? 0,
+      paymentToken: map['paymentToken'],
+      paymentMethod: map['paymentMethod']?.toInt() ?? 0,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory OrderFormModel.fromJson(String source) =>
+      OrderFormModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'OrderFormModel(shippingInfo: $shippingInfo, paymentInfo: $paymentInfo, orderItems: $orderItems, itemsPrice: $itemsPrice, shippingPrice: $shippingPrice, totalPrice: $totalPrice, paymentToken: $paymentToken, paymentMethod: $paymentMethod)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is OrderFormModel &&
+        other.shippingInfo == shippingInfo &&
+        other.paymentInfo == paymentInfo &&
+        listEquals(other.orderItems, orderItems) &&
+        other.itemsPrice == itemsPrice &&
+        other.shippingPrice == shippingPrice &&
+        other.totalPrice == totalPrice &&
+        other.paymentToken == paymentToken &&
+        other.paymentMethod == paymentMethod;
+  }
+
+  @override
+  int get hashCode {
+    return shippingInfo.hashCode ^
+        paymentInfo.hashCode ^
+        orderItems.hashCode ^
+        itemsPrice.hashCode ^
+        shippingPrice.hashCode ^
+        totalPrice.hashCode ^
+        paymentToken.hashCode ^
+        paymentMethod.hashCode;
+  }
 }

@@ -10,8 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FeeedWidget extends StatelessWidget {
-  const FeeedWidget({Key? key, required this.products}) : super(key: key);
+  FeeedWidget({Key? key, required this.products, this.ch, this.cw})
+      : super(key: key);
   final Product products;
+  double? cw;
+  double? ch;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,7 @@ class FeeedWidget extends StatelessWidget {
 
     //
     return Container(
+      height: ch,
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
@@ -48,8 +52,8 @@ class FeeedWidget extends StatelessWidget {
                 children: [
                   FancyShimmerImage(
                     imageUrl: products.thumbnail.url,
-                    width: 200,
-                    height: size.width * 0.18,
+                    width: cw != null ? cw!.toDouble() : 200,
+                    height: ch != null ? ch!.toDouble() : size.width * 0.18,
                     boxFit: BoxFit.cover,
                   ),
                   Text(
@@ -131,10 +135,10 @@ class FeeedWidget extends StatelessWidget {
                   ),
                   child: IconButton(
                       onPressed: () {
-                        wishListProvider.addToWishList(products.id, products);
+                        wishListProvider.addToWishList(products);
                       },
                       icon: Icon(
-                        wishListProvider.wishList.containsKey(products.id)
+                        wishListProvider.isItemInWish(products.id)
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: Colors.redAccent,
@@ -152,15 +156,16 @@ class FeeedWidget extends StatelessWidget {
                     color: Colors.black,
                   ),
                   child: IconButton(
-                      onPressed: () {
-                        cartProvider.addToCart(products.id, products);
-                      },
-                      icon: Icon(
-                        cartProvider.isItemInCart(products.id)
-                            ? Icons.shopping_cart
-                            : Icons.add_shopping_cart,
-                        color: Colors.deepOrange,
-                      )),
+                    onPressed: () {
+                      cartProvider.addToCart(products.id, products);
+                    },
+                    icon: Icon(
+                      cartProvider.isItemInCart(products.id)
+                          ? Icons.shopping_cart
+                          : Icons.add_shopping_cart,
+                      color: Colors.deepOrange,
+                    ),
+                  ),
                 ),
               ),
               badges.Badge(

@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:app/models/app/catagoriModel.dart';
 import 'package:app/models/app/productModel.dart';
-import 'package:app/screens/catagories/catagoriesProduct.dart';
+import 'package:app/screens/catagories/CatagoriProducts.dart';
+import 'package:app/screens/catagories/CatagorieListsUI.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
+import 'package:app/utils/navigation_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
@@ -24,53 +26,54 @@ class CatagorytwoWidget extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        log(cata.id);
+        pushNamedOnlyTo(
+            routeName: CatagoriProducts.routeName,
+            arg: '${cata.id} && ${cata.name}');
       },
-      child: Card(
-        elevation: 4,
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.only(right: 10),
-          margin: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Colors.white10,
-            border: const Border.symmetric(),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FancyShimmerImage(
-                imageUrl: cata.catagoriImage.url,
-                width: size.width / 2,
-                height: 250,
-                boxFit: BoxFit.fill,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    cata.name.toUpperCase(),
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.only(right: 10, left: 3, bottom: 2, top: 4),
+        margin: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.white10,
+          border: const Border.symmetric(),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            FancyShimmerImage(
+              imageUrl: cata.catagoriImage.url,
+              width: size.width / 2,
+              height: 250,
+              boxFit: BoxFit.fill,
+              boxDecoration:
+                  BoxDecoration(borderRadius: BorderRadius.circular(8)),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  cata.name.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
-                  Text(
-                    "${cata.slug} ",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      decoration: TextDecoration.lineThrough,
-                      color: AppColors.AppGrey,
-                    ),
+                ),
+                Text(
+                  "${cata.slug} ",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.lineThrough,
+                    color: AppColors.AppGrey,
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
       /*

@@ -5,6 +5,54 @@ import 'package:flutter/material.dart';
 class AppinputWidgets {
   BuildContext context;
   AppinputWidgets(this.context);
+//
+  Widget textinput({
+    required String text,
+    InputDecoration? decoration,
+    TextEditingController? controller,
+    void Function(String)? onChanged,
+    int? minline,
+    int? maxline,
+    TextInputType? inputType,
+  }) {
+    final theme = Utils(context).getTheme;
+    return TextField(
+      minLines: minline,
+      maxLines: maxline,
+      controller: controller,
+      onChanged: onChanged,
+      keyboardType: inputType,
+      style: TextStyle(
+        color: theme ? Colors.white : Colors.black,
+        fontWeight: FontWeight.w500,
+      ),
+      decoration: InputDecoration(
+        label: Text(
+          text,
+          style: TextStyle(
+            color: AppColors.AppIconHover,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: AppColors.AppPrimary,
+            width: 2,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(
+            color: theme ? Colors.white : Colors.black,
+            width: 2,
+          ),
+        ),
+        contentPadding: const EdgeInsets.all(20.0),
+      ),
+    );
+  }
+
+  //
   Widget signupInput({
     required String text,
     InputDecoration? decoration,

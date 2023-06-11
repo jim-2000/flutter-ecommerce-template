@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 
+import 'package:app/utils/sf_utils.dart';
 import 'package:app/utils/toast_utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +29,6 @@ class HeadersRawData {
       authorization: json['Authorization']!,
     );
   }
-
   Map<String, String> toJson() {
     final Map<String, String> data = Map<String, String>();
     data['content-type'] = this.contentType ?? HeaderContentType.json;
@@ -44,7 +45,7 @@ Future<http.Response> reqPostAPIMethod(
   Map<String, dynamic>? apiBodyRawData,
 ) {
   late Future<http.Response> response;
-
+  log(apiBodyRawData.toString());
   try {
     response = http.Client()
         .post(Uri.parse(apiUrl), headers: apiHeaders, body: apiBodyRawData)
@@ -84,5 +85,34 @@ Future<http.Response> reqGetAPIMethod(String apiUrl,
     //To handle Socket Exception in case network connection is not available during initiating your network call
   }
 
+  return response;
+}
+
+//
+///-------------------post method ----------------------------------------------------------------
+Future<http.Response> reqPostAPIMethodAuthorize(
+  String apiUrl,
+  apiBodyRawData,
+) async {
+  late Future<http.Response> response;
+  String token = await fetchStringValuesSF("authToken");
+  final Map<String, String> headers = {
+    "x-api-key": "YOUR_API_KEY",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    'Content-Type': 'application/json',
+    "Authorization": "Bearer $token",
+  };
+  try {
+    response = http.Client()
+        .post(Uri.parse(apiUrl), headers: headers, body: apiBodyRawData)
+        .timeout(const Duration(seconds: 300), onTimeout: () {
+      return response;
+    });
+  } on SocketException catch (_) {
+    showSimpleNotification(
+      msg: "Network connectivity not found. Try again.",
+    );
+  }
   return response;
 }

@@ -12,6 +12,9 @@ Future<bool> isNetOn() async {
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
       debugPrint('connected');
       isOnline = true;
+      return true;
+    } else {
+      return false;
     }
   } on SocketException catch (_) {
     debugPrint('disconnected');
@@ -20,6 +23,7 @@ Future<bool> isNetOn() async {
         color: AppColors.AppPrimary,
         title: "Turn on network connectivity");
     isOnline = false;
+    return false;
   }
   return isOnline;
 }

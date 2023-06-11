@@ -1,7 +1,8 @@
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/dark_theme_provider.dart';
+import 'package:app/provider/wishListProvider.dart';
 import 'package:app/screens/cart/cart_screen.dart';
-import 'package:app/screens/catagories/catagories.dart';
+import 'package:app/screens/catagories/CatagoriProducts.dart';
 import 'package:app/screens/catagories/catagory_Screen.dart';
 import 'package:app/screens/feed/feedScreen.dart';
 import 'package:app/screens/homeScreens/homeScreen.dart';
@@ -12,6 +13,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app/services/app/catagoriService.dart';
+import 'package:badges/badges.dart' as badges;
 
 class BottomBarScreen extends StatefulWidget {
   const BottomBarScreen({Key? key}) : super(key: key);
@@ -41,15 +43,19 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
   }
 
   Future<void> syncData() async {
+    Provider.of<CartProvider>(context, listen: false).syncCart();
+    Provider.of<WishListProvider>(context, listen: false).syncwish();
+
     Future.delayed(Duration.zero, () async {
       catagoriService.getAllCategories(context);
       productService.getAllProducts(context);
-      Provider.of<CartProvider>(context, listen: false).syncCart();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
+
     final List pages = [
       const HomeScreen(),
       const FeedScreen(),
@@ -96,11 +102,24 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                 : AppColors.AppBlack,
           ),
           BottomNavyBarItem(
-            icon: Icon(
-              _selectedINdex == 2
-                  ? Icons.shopping_cart
-                  : Icons.shopping_cart_outlined,
-            ),
+            icon: Consumer<CartProvider>(builder: (context, cp, _) {
+              return Expanded(
+                child: badges.Badge(
+                  badgeAnimation: const badges.BadgeAnimation.slide(),
+                  badgeContent: Text(
+                    cartProvider.cartList.length.toString(),
+                    style: const TextStyle(fontSize: 8),
+                  ),
+                  position: badges.BadgePosition.topEnd(top: -5, end: -7),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(CartScreen.routeName);
+                    },
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                  ),
+                ),
+              );
+            }),
             title: const Text('cart'),
             activeColor: AppColors.AppPrimary,
             inactiveColor: themeState.isDark

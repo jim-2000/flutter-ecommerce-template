@@ -4,16 +4,18 @@ import 'package:app/models/cartModel.dart';
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/productProvider.dart';
 import 'package:app/screens/bottom_bar_Screen.dart';
-import 'package:app/screens/homeScreens/homeScreen.dart';
+import 'package:app/screens/order/PlaceOrder.dart';
 import 'package:app/screens/payment/payment.dart';
 import 'package:app/services/app/orderService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
+import 'package:app/utils/navigation_utils.dart';
 import 'package:app/widgets/cart/CartItem.dart';
 import 'package:app/widgets/cart/emptyCart.dart';
 import 'package:app/widgets/home/feedWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:animate_do/animate_do.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -27,7 +29,7 @@ class _CartScreenState extends State<CartScreen> {
   final orderservice = OrderService();
   @override
   void initState() {
-    orderservice.getmyOrder(context);
+    // orderservice.getmyOrder(context);
     // TODO: implement initState
     super.initState();
   }
@@ -94,6 +96,7 @@ class _CartScreenState extends State<CartScreen> {
           )
         : Scaffold(
             appBar: AppBar(
+              elevation: 0.0,
               title: Consumer<CartProvider>(
                 builder: (context, cp, _) {
                   return Text("CART ${cartProvider.cartList.length}");
@@ -142,45 +145,19 @@ class _CartScreenState extends State<CartScreen> {
 
                           return ChangeNotifierProvider.value(
                             value: cartItem,
-                            child: CartIdtem(
-                              cartPId: cartItem.id,
+                            child: FadeIn(
+                              animate: true,
+                              duration: const Duration(seconds: 2),
+                              delay: Duration(microseconds: i * 100),
+                              child: CartIdtem(
+                                cartPId: cartItem.id,
+                              ),
                             ),
                           );
                         },
                         itemCount: cartProvider.cartList.length,
                       ),
                     ),
-                    // const SizedBox(
-                    //   height: 20,
-                    // ),
-                    // //
-                    // const SizedBox(
-                    //   height: 40,
-                    //   child: Padding(
-                    //     padding: EdgeInsets.all(8),
-                    //     child: _listtitle(title: "You may also Like"),
-                    //   ),
-                    // ),
-                    // // List view
-                    // SizedBox(
-                    //   height: sizes.height * 0.24,
-                    //   width: sizes.width,
-                    //   child: ListView.builder(
-                    //     itemBuilder: (ctx, i) {
-                    //       return Card(
-                    //         elevation: 20,
-                    //         child: FeeedWidget(
-                    //           products: latestProduct.getLatestProduct()[i],
-                    //         ),
-                    //       );
-                    //     },
-                    //     itemCount: latestProduct.getLatestProduct().length,
-                    //     scrollDirection: Axis.horizontal,
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   height: 100,
-                    // ),
                   ],
                 ),
               ),
@@ -229,16 +206,10 @@ class _CartScreenState extends State<CartScreen> {
                         style: ElevatedButton.styleFrom(
                           minimumSize:
                               Size(MediaQuery.of(context).size.width / 3, 55),
-                          primary: AppColors.AppPrimary,
+                          backgroundColor: AppColors.AppPrimary,
                         ),
                         onPressed: () {
-                          // Navigator.of(context)
-                          //     .pushNamed(PaymentScreen.routeName, arguments: {
-                          //   "productid": [cartProvider.cartList..toList()],
-                          //   "productprice": [
-                          //     cartProvider.totalAmount,
-                          //   ],
-                          // });
+                          pushNamedOnlyTo(routeName: PlaceOrder.routeName);
                         },
                         child: Text(
                           "Place order".toUpperCase(),

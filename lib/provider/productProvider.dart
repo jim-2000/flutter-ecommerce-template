@@ -4,10 +4,18 @@ import 'package:flutter/cupertino.dart';
 class ProductProvider extends ChangeNotifier {
   bool isLoading = false;
   List<Product> _product = [];
+  List<Product> _catproduct = [];
   List<Product> product() => _product;
+  List<Product> catagoriproduct() => _catproduct;
   // get all product
   Future<void> getallProduct(List<Product> productList) async {
     _product = productList;
+    notifyListeners();
+  }
+
+  // get all product
+  Future<void> getProductBycatagori(List<Product> productList) async {
+    _catproduct = productList;
     notifyListeners();
   }
 
@@ -21,11 +29,9 @@ class ProductProvider extends ChangeNotifier {
     return _product.firstWhere((element) => element.id == pId);
   }
 
-  // // get product by category
-  List<Product> getProductByCategory(String pCategory) {
-    return _product
-        .where((element) => element.catagoryName == pCategory)
-        .toList();
+  // // get product by  brand
+  List<Product> catProduct(String cid) {
+    return _product.where((element) => element.catagoryName == cid).toList();
   }
 
   // // get product by search

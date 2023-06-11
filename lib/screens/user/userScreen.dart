@@ -1,19 +1,17 @@
-import 'dart:developer';
-import 'dart:ui';
 import 'package:app/provider/auth/UserProvider.dart';
 import 'package:app/provider/dark_theme_provider.dart';
-import 'package:app/screens/auth/loginScreen.dart';
 import 'package:app/screens/auth/resetPassword.dart';
 import 'package:app/screens/order/OrderScreen.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
 import 'package:app/services/auth/AuthService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/modalBottom.dart';
-import 'package:app/utils/sf_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserScreen extends StatefulWidget {
+  static const String routeName = '/userScreen';
+
   const UserScreen({Key? key}) : super(key: key);
 
   @override
@@ -21,8 +19,6 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
-  static const String routeName = '/userScreen';
-
   final TextEditingController _editingController =
       TextEditingController(text: '');
 

@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:app/models/app/productModel.dart';
+import 'package:app/provider/cartProvider.dart';
+import 'package:app/provider/wishListProvider.dart';
 import 'package:app/screens/homeScreens/detailsScreen.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
@@ -10,6 +12,7 @@ import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class LatestProduct extends StatelessWidget {
@@ -19,6 +22,12 @@ class LatestProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = Utils(context).getScreenSize;
     final theme = Utils(context).getTheme;
+
+    // >>>>>>>>>> provider
+    final CartProvider cartProvider = Provider.of<CartProvider>(context);
+    final WishListProvider wishListProvider =
+        Provider.of<WishListProvider>(context);
+
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -34,11 +43,6 @@ class LatestProduct extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          // Navigator.pushNamed(
-          //   context,
-          //   DetailsScreen.routeName,
-          //   arguments: products.id,
-          // );
           pushNamedOnlyTo(routeName: DetailsScreen.routeName, arg: products.id);
         },
         borderRadius: BorderRadius.circular(12),
@@ -125,19 +129,22 @@ class LatestProduct extends StatelessWidget {
                 ],
               ),
               Positioned(
-                right: 10,
-                top: 10,
+                right: 0,
                 child: Container(
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white70,
+                    color: Colors.black,
                   ),
                   child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.favorite_border,
+                      onPressed: () {
+                        wishListProvider.addToWishList(products);
+                      },
+                      icon: Icon(
+                        wishListProvider.isItemInWish(products.id)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color: Colors.redAccent,
                       )),
                 ),
@@ -153,11 +160,16 @@ class LatestProduct extends StatelessWidget {
                     color: Colors.black,
                   ),
                   child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.shopping_cart,
-                        color: Colors.deepOrange,
-                      )),
+                    onPressed: () {
+                      cartProvider.addToCart(products.id, products);
+                    },
+                    icon: Icon(
+                      cartProvider.isItemInCart(products.id)
+                          ? Icons.shopping_cart
+                          : Icons.add_shopping_cart,
+                      color: Colors.deepOrange,
+                    ),
+                  ),
                 ),
               ),
               badges.Badge(
@@ -166,13 +178,13 @@ class LatestProduct extends StatelessWidget {
                   shape: badges.BadgeShape.square,
                   borderRadius: BorderRadius.circular(4),
                   elevation: 5,
-                  badgeColor: products.catagoryName == 'Phones'
-                      ? Colors.red
-                      : Colors.deepOrange,
+                  badgeColor: products.oldPrice > products.price
+                      ? Colors.pink
+                      : Colors.deepPurple,
                 ),
                 showBadge: true,
                 badgeContent: Text(
-                  products.catagoryName == 'Phones' ? 'New' : 'offer',
+                  products.oldPrice > products.price ? 'offer' : 'New',
                   style: const TextStyle(color: Colors.white),
                 ),
               ),

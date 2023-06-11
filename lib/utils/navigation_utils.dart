@@ -3,6 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+void pushBack() {
+  return Navigator.pop(Get.context!);
+}
+
 Future<dynamic> pushNamedToReplace(
     {required String routeName, String? arg}) async {
   return await Navigator.of(Get.context!).pushReplacementNamed(

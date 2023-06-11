@@ -1,4 +1,6 @@
 import 'dart:developer' show log;
+import 'package:app/utils/appColors.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
 import 'package:flutter/material.dart';
 
@@ -23,41 +25,64 @@ class CategoriesWidgets extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-            color: pathClr ?? pathClr!.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: Colors.lightGreenAccent,
-              width: 2,
-            )),
-        child: Column(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.AppGrey,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-              child: Container(
+              child: FancyShimmerImage(
                 height: hi * 0.3,
                 width: we * 0.3,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(imgPath),
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                imageUrl: imgPath,
+                errorWidget: Text(title),
               ),
             ),
-            Text(
-              title,
-              style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis),
-              maxLines: 1,
-            ),
-            Row(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.shop)),
-                IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.favorite)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      title.toUpperCase(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      "${title} ",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        decoration: TextDecoration.lineThrough,
+                        color: AppColors.AppGrey,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(onPressed: () {}, icon: const Icon(Icons.shop)),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.shopping_cart),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.favorite),
+                    ),
+                  ],
+                ),
               ],
             ),
           ],

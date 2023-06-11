@@ -57,6 +57,9 @@ dependencies:
   pinput: ^2.2.31
   google_fonts: ^4.0.4
   intl: ^0.18.1
+  flutter_svg: ^2.0.5
+  flutter_stripe: ^9.2.1
+  connectivity_plus: ^4.0.1
 
 
 dev_dependencies:
@@ -84,6 +87,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/lottie/
+    - assets/images/svg/
     - assets/images/offres/
     - assets/images/cat/
     - assets/images/landing/

@@ -68,5 +68,34 @@ class ProductService {
   }
 
   // get product By Catagori
-  void getProductByCatagori(BuildContext context, String cId) {}
+  getProductByCatagori(BuildContext context, String cId) async {
+    final prodcutProvider =
+        Provider.of<ProductProvider>(context, listen: false);
+
+    try {
+      prodcutProvider.startLoader();
+      http.Response res =
+          await reqGetAPIMethod(Url.getProductCatagori + cId.toString());
+      final json = jsonDecode(res.body);
+      final data = json['data'];
+      if (res.statusCode == 200) {
+        final productss = List.from(data)
+            .map<Product>((prod) => Product.fromJson(prod))
+            .toList();
+        log(productss.length.toString());
+        prodcutProvider.getProductBycatagori(productss);
+        prodcutProvider.stopLoader();
+      } else {
+        prodcutProvider.stopLoader();
+      }
+    } catch (e) {
+      log(e.toString());
+      showSimpleNotification(
+        msg: "",
+        title: "Something went wrong",
+        color: AppColors.AppPrimary,
+      );
+      prodcutProvider.stopLoader();
+    }
+  }
 }

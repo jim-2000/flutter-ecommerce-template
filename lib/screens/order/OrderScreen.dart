@@ -46,10 +46,10 @@ class OrderScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             Container(
-              child: Text('Onging Order Card'),
+              child: Center(child: Text('Onging Order Card')),
             ),
             Container(
-              child: Text('Complete Order Card'),
+              child: Center(child: Text('Complete Order Card')),
             ),
           ],
         ),

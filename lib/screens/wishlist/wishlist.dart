@@ -43,7 +43,8 @@ class WishlistScreen extends StatelessWidget {
           )
         : Scaffold(
             appBar: AppBar(
-              title: Text('My Wishlist ${wishlistprovider.wishList.length}'),
+              elevation: 1.0,
+              title: Text('My Wishlist (${wishlistprovider.wishList.length})'),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -56,36 +57,32 @@ class WishlistScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: wishlistprovider.wishList.length,
                         itemBuilder: (context, index) {
-                          final wp =
-                              wishlistprovider.wishList.values.toList()[index];
-                          final key =
-                              wishlistprovider.wishList.keys.toList()[index];
+                          final wp = wishlistprovider.wishList[index];
 
-                          return ChangeNotifierProvider.value(
-                            value: wp,
-                            child: ElasticInDown(
-                              duration: Duration(seconds: 2),
-                              delay: Duration(milliseconds: index * 100),
-                              child: Dismissible(
-                                key: Key(key),
-                                onDismissed: (direction) {
-                                  wishlistprovider.removeFromWishList(key);
-                                },
-                                direction: DismissDirection.endToStart,
-                                background: Container(
-                                  color: Colors.red,
-                                  child: const Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Icon(
-                                        Icons.delete,
-                                        color: Colors.white,
-                                      ),
+                          return ElasticInDown(
+                            duration: Duration(seconds: 2),
+                            delay: Duration(milliseconds: index * 100),
+                            child: Dismissible(
+                              key: Key(wp.wishId),
+                              onDismissed: (direction) {
+                                wishlistprovider.removeFromWishList(wp.wishId);
+                              },
+                              direction: DismissDirection.endToStart,
+                              background: Container(
+                                color: Colors.red,
+                                child: const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),
-                                child: const WishlistCard(),
+                              ),
+                              child: WishlistCard(
+                                wishlistAttribute: wp,
                               ),
                             ),
                           );

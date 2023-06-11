@@ -2,7 +2,7 @@ import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/provider/productProvider.dart';
 import 'package:app/services/app/productService.dart';
 import 'package:app/utils/appColors.dart';
-import 'package:app/widgets/home/feedWidget.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:app/widgets/home/FeedProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +29,6 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     final products = Provider.of<ProductProvider>(context);
     final double hi = MediaQuery.of(context).size.height;
-    final double we = MediaQuery.of(context).size.width;
-    final theme = Provider.of<ThemeProvider>(context);
     return Consumer<ProductProvider>(
       builder: (context, prod, _) {
         return prod.isLoading
@@ -52,11 +50,14 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                   itemBuilder: (ctx, i) {
                     return SizedBox(
-                      height: hi * 0.28,
-                      child: FeedProduct(
-                        products: products.product()[i],
-                      ),
-                    );
+                        height: hi * 0.28,
+                        child: ElasticInDown(
+                          duration: const Duration(seconds: 2),
+                          delay: Duration(milliseconds: i * 100),
+                          child: FeedProduct(
+                            products: products.product()[i],
+                          ),
+                        ));
                   },
                   itemCount: products.product().length,
                 ),

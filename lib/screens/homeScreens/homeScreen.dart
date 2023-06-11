@@ -2,11 +2,12 @@ import 'dart:developer';
 
 import 'package:app/models/app/catagoriModel.dart';
 import 'package:app/models/app/productModel.dart';
-import 'package:app/models/products.dart';
+import 'package:simple_animations/simple_animations.dart';
 import 'package:app/provider/catagoriProvider.dart';
 import 'package:app/provider/dark_theme_provider.dart';
 import 'package:app/provider/productProvider.dart';
-import 'package:app/screens/catagories/catagories.dart';
+import 'package:app/screens/catagories/CatagoriProducts.dart';
+import 'package:app/screens/catagories/CatagorieListsUI.dart';
 import 'package:app/screens/catagories/catagory_Screen.dart';
 import 'package:app/services/app/catagoriService.dart';
 import 'package:app/services/app/productService.dart';
@@ -139,32 +140,78 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 40,
                       child: Padding(
-                        padding: EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8),
                         child: _listtitle(
                           title: "Catagory",
                           function: () {
-                            pushNamedOnlyTo(routeName: Categories.routeName);
+                            pushNamedOnlyTo(
+                              routeName: CatagorieListsUI.routeName,
+                            );
                           },
                         ),
                       ),
                     ),
                     // catagory list
-                    SizedBox(
-                      height: 80,
-                      width: double.infinity,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, i) {
-                          return CatagoryThumb(
-                            img: catagories[i].catagoriImage.url,
-                            name: catagories[i].name,
-                            onTap: () {
-                              log(catagories[i].id);
+                    Row(
+                      children: [
+                        Flexible(
+                          child: SizedBox(
+                            height: 80,
+                            width: double.infinity,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, i) {
+                                return CatagoryThumb(
+                                  img: catagories[i].catagoriImage.url,
+                                  name: catagories[i].name,
+                                  onTap: () {
+                                    log(catagories[i].id);
+                                    pushNamedOnlyTo(
+                                        routeName: CatagoriProducts.routeName,
+                                        arg:
+                                            '${catagories[i].id} && ${catagories[i].name}');
+                                  },
+                                );
+                              },
+                              itemCount: catagories.length,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            pushNamedOnlyTo(
+                              routeName: CatagorieListsUI.routeName,
+                            );
+                          },
+                          child: MirrorAnimationBuilder<double>(
+                            tween: Tween(
+                                begin: -10.0,
+                                end: 10.0), // value for offset x-coordinate
+                            duration: const Duration(seconds: 1),
+                            curve: Curves.easeInOutSine, // non-linear animation
+                            builder: (context, value, child) {
+                              return Transform.translate(
+                                offset: Offset(
+                                  value,
+                                  0,
+                                ), // use animated value for x-coordinate
+                                child: child,
+                              );
                             },
-                          );
-                        },
-                        itemCount: catagories.length,
-                      ),
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              padding: const EdgeInsets.all(8.0),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.arrow_circle_right_outlined,
+                                  size: 26,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     //
                     const SizedBox(

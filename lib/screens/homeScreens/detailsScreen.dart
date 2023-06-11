@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:app/models/app/productModel.dart';
-import 'package:app/models/products.dart';
-import 'package:app/models/wishlistModel.dart';
+
 import 'package:app/provider/cartProvider.dart';
 import 'package:app/provider/productProvider.dart';
 import 'package:app/provider/wishListProvider.dart';
@@ -10,17 +9,15 @@ import 'package:app/screens/wishlist/wishlist.dart';
 import 'package:app/services/app/productService.dart';
 import 'package:app/utils/appColors.dart';
 import 'package:app/utils/apputils.dart';
-import 'package:app/widgets/catagory/thumbCatagory_widget.dart';
 import 'package:app/widgets/home/feedWidget.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
 class DetailsScreen extends StatefulWidget {
-  DetailsScreen({
+  const DetailsScreen({
     Key? key,
   }) : super(key: key);
   static const String routeName = '/details';
@@ -31,12 +28,6 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   final productService = ProductService();
-
-  List<String> catagoies = [
-    "assets/images/offres/women.jpg",
-    "assets/images/offres/phone.jpg",
-    'assets/images/cat/fruits.png'
-  ];
 
   //
   @override
@@ -56,7 +47,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
     // cart provider
     final CartProvider cartProvider = Provider.of<CartProvider>(context);
     final discount = product.oldPrice * 20 / 100;
-    final newPrice = product.price - discount;
 
     return Scaffold(
       appBar: AppBar(
@@ -126,21 +116,22 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       )
                     : null,
                 itemBuilder: (context, i) {
-                  return FancyShimmerImage(
-                    imageUrl: product.images[i].url,
-                    boxFit: BoxFit.cover,
+                  return InkWell(
+                    onDoubleTap: () {
+                      wishlist.addToWishList(product);
+                    },
+                    child: FancyShimmerImage(
+                      imageUrl: product.images[i].url,
+                      boxFit: BoxFit.cover,
+                      errorWidget: Text(product.name),
+                    ),
                   );
-                  // Image.network(
-                  //   product.images[i].url,
-                  //   fit: BoxFit.fill,
-                  // );
                 },
               ),
             ),
             Container(
               margin: EdgeInsets.only(top: sizes.height * 0.4),
               decoration: BoxDecoration(
-                // color: Colors.white54,
                 border: Border.all(
                   color: Colors.grey,
                   width: 2,
@@ -162,8 +153,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product.name,
-                              style: Theme.of(context).textTheme.bodyLarge,
+                              '${product.name.substring(0, product.name.length > 20 ? 20 : product.name.length)}...',
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 3,
+                              softWrap: true,
                             ),
                             Row(
                               children: [
@@ -214,12 +207,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               child: IconButton(
                                 onPressed: () {
                                   wishlist.addToWishList(
-                                    productId.toString(),
                                     product,
                                   );
                                 },
                                 icon: Icon(
-                                  wishlist.isInWishList(product.id)
+                                  wishlist.isItemInWish(product.id)
                                       ? Icons.favorite
                                       : Icons.favorite_border,
                                   color: Colors.red,
@@ -258,15 +250,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                               ),
                             ),
                             const SizedBox(
-                              height: 6,
+                              height: 10,
                             ),
                             Row(
                               children: [
                                 Text(
-                                  "\$ ${product.price.truncateToDouble()}",
-                                  style: const TextStyle(
-                                    fontSize: 21,
+                                  "\$${product.price.truncateToDouble()}",
+                                  style: TextStyle(
+                                    fontSize: 24,
                                     fontWeight: FontWeight.w600,
+                                    color: AppColors.AppPrimary,
                                   ),
                                 ),
                                 const SizedBox(
@@ -282,10 +275,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  width: 7,
+                                  width: 10,
                                 ),
                                 Text(
-                                  "(-${discount}% off)",
+                                  "(-$discount% off)",
                                   style: const TextStyle(
                                     textBaseline: TextBaseline.alphabetic,
                                     fontSize: 21,
@@ -311,13 +304,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         const SizedBox(
                           height: 3,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Text(
-                            product.description,
-                            style: const TextStyle(
-                              fontSize: 21,
-                              fontWeight: FontWeight.w600,
+                        SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Text(
+                              product.description,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w300,
+                              ),
                             ),
                           ),
                         ),
@@ -335,7 +331,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         _detailsProducts(
                           title: "Quantity",
-                          titleDetails: "${product.currentStock - 10} left",
+                          titleDetails: "${product.currentStock} left",
                         ),
                         _detailsProducts(
                           title: "Catagory",
@@ -343,7 +339,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         ),
                         _detailsProducts(
                           title: "Popularity",
-                          titleDetails: "${product.currentStock}+ reviews",
+                          titleDetails: "${product.currentStock * 2} +reviews",
+                        ),
+                        _detailsProducts(
+                          title: "Vendor Name",
+                          titleDetails: "${product.vendorName.toUpperCase()} ",
                         ),
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8),
@@ -410,10 +410,10 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(8),
-                      child: const Text(
+                      child: Text(
                         "Suggested Products",
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: Colors.grey.shade300,
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
@@ -447,7 +447,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       ),
       bottomSheet: _bottomSheet(
         onPressed: () {
-          wishlist.addToWishList(product.id, product);
+          wishlist.addToWishList(product);
         },
         addtoCart: () {
           cartProvider.addToCart(product.id, product);
@@ -455,7 +455,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         buyNOw: () => Navigator.of(context).pushNamed(
           CartScreen.routeName,
         ),
-        icon: wishlist.isInWishList(product.id)
+        icon: wishlist.isItemInWish(product.id)
             ? Icons.favorite
             : Icons.favorite_border_outlined,
       ),

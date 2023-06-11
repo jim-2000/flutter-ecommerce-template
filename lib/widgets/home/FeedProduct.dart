@@ -133,10 +133,10 @@ class FeedProduct extends StatelessWidget {
                   ),
                   child: IconButton(
                       onPressed: () {
-                        wishListProvider.addToWishList(products.id, products);
+                        wishListProvider.addToWishList(products);
                       },
                       icon: Icon(
-                        wishListProvider.wishList.containsKey(products.id)
+                        wishListProvider.isItemInWish(products.id)
                             ? Icons.favorite
                             : Icons.favorite_border,
                         color: Colors.redAccent,
