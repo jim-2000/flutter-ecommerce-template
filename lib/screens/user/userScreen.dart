@@ -175,20 +175,7 @@ class _UserScreenState extends State<UserScreen> {
                         _listTiles(
                           title: "Delivery Address",
                           leadingIcon: Icons.location_on,
-                          ontap: () async {
-                            // await showMaterialModalBottomSheet(
-                            //   context: context,
-                            //   builder: (context) => SingleChildScrollView(
-                            //     keyboardDismissBehavior:
-                            //         ScrollViewKeyboardDismissBehavior
-                            //             .manual,
-                            //     controller:
-                            //         ModalScrollController.of(context),
-                            //     physics: const ClampingScrollPhysics(),
-                            //     child: _modal(context),
-                            //   ),
-                            // );
-                          },
+                          ontap: () async {},
                         ),
                         _listTiles(
                           title: "Reset Password",

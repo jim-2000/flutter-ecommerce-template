@@ -7,6 +7,7 @@ import 'package:app/screens/auth/signupScreen.dart';
 import 'package:app/screens/onboarding/onboarding.dart';
 import 'package:app/services/auth/AuthService.dart';
 import 'package:app/utils/appColors.dart';
+import 'package:app/utils/apputils.dart';
 import 'package:app/utils/navigation_utils.dart';
 import 'package:app/utils/toast_utils.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,9 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Utils(context).getTheme;
+    final size = Utils(context).getScreenSize;
+
     return isConnected == false
         ? Scaffold(
             backgroundColor: Colors.white,
@@ -115,9 +119,13 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                   Container(
                     height: 200,
+                    width: 200,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/logo.png'),
+                        image: AssetImage(
+                          'assets/images/logo.png',
+                        ),
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
@@ -159,6 +167,7 @@ Future checkb4transit(BuildContext context) async {
       routeName:
           isOnBoardingComplete ? SignUpScreen.routeName : OnBoarding.routeName,
     );
+
     setOnBoardingAsCompleted();
   }
 }

@@ -6,7 +6,9 @@ import 'package:app/utils/sf_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 
+//
 class OnBoarding extends StatelessWidget {
   static const String routeName = "on_boarding";
   const OnBoarding({Key? key}) : super(key: key);
@@ -18,11 +20,10 @@ class OnBoarding extends StatelessWidget {
     // ignore: no_leading_underscores_for_local_identifiers
     final _pages = <PageViewModel>[
       getPageData(
-        title: "Easy-Shop \n Bye one get One",
+        title: "Free Delivery\n Bye one get One",
         body:
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-        image:
-            "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        image: "assets/lottie/delivery.json",
         height: height,
         context: context,
       ),
@@ -30,8 +31,7 @@ class OnBoarding extends StatelessWidget {
         title: "Find your Best Product &  Save your money",
         body:
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-        image:
-            "https://images.unsplash.com/photo-1579621970795-87facc2f976d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        image: "assets/lottie/shopping.json",
         height: height,
         context: context,
       ),
@@ -39,8 +39,7 @@ class OnBoarding extends StatelessWidget {
         title: "Let's start your journey with us",
         body:
             "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-        image:
-            "https://images.unsplash.com/photo-1605086998852-18371cfd9b2e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+        image: "assets/lottie/delivery_truck.json",
         height: height,
         context: context,
       ),
@@ -54,14 +53,14 @@ class OnBoarding extends StatelessWidget {
         showNextButton: true,
         dotsDecorator: DotsDecorator(
           size: const Size(10.0, 10.0),
-          color: AppColors.AppSecondary,
-          activeColor: AppColors.AppPrimary,
+          color: AppColors.AppPrimary,
+          activeColor: AppColors.AppIconHover,
           activeSize: const Size(33.0, 10.0),
           activeShape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(25.0),
           ),
         ),
-        globalBackgroundColor: AppColors.AppBg,
+        globalBackgroundColor: AppColors.AppSecondary,
         done: Text(
           "Done".toUpperCase(),
           style: TextStyle(
@@ -102,19 +101,17 @@ PageViewModel getPageData({
     title: title,
     body: body,
     image: Container(
-      height: double.maxFinite,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage(image),
-          fit: BoxFit.cover,
-        ),
+      height: height,
+      color: AppColors.AppIconHover,
+      child: Lottie.asset(
+        image,
+        fit: BoxFit.contain,
       ),
     ),
     decoration: PageDecoration(
       bodyPadding: const EdgeInsets.all(16),
       titlePadding: const EdgeInsets.all(8),
-      pageColor: AppColors.AppBg,
+      pageColor: AppColors.AppSecondary,
       titleTextStyle: theme.isDark
           ? const TextStyle(
               color: Colors.white,
@@ -139,6 +136,7 @@ PageViewModel getPageData({
             ),
       imageFlex: 3,
       bodyFlex: 2,
+      fullScreen: false,
     ),
   );
 }

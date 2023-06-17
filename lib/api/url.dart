@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class Url {
   static String sandboxDomain = "http://192.168.0.105";
   static String port = '4000';

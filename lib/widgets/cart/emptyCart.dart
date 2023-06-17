@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/utils/appColors.dart';
 
 class EmptyCard extends StatelessWidget {
   String imgss;
@@ -60,19 +61,20 @@ class EmptyCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width, 55),
-              ),
-              onPressed: onButtonTap ?? () {},
-              child: Text(
-                buttonTitle ?? "Shop Now".toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
+          GestureDetector(
+            onTap: onButtonTap,
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              margin: const EdgeInsets.all(20),
+              color: AppColors.AppPrimary,
+              child: Center(
+                child: Text(
+                  buttonTitle ?? "Shop Now".toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

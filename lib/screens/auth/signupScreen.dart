@@ -82,235 +82,207 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                 ),
               )
-            : Scaffold(
-                backgroundColor:
-                    theme.isDark ? AppColors.AppBlack : AppColors.AppBg,
-                appBar: AppBar(
+            : GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: Scaffold(
                   backgroundColor:
                       theme.isDark ? AppColors.AppBlack : AppColors.AppBg,
-                  elevation: 0,
-                  title: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color:
-                          theme.isDark ? AppColors.AppBlack : AppColors.AppBg,
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/cat/veg.png",
-                          width: 40,
-                          height: 40,
-                        ),
-                        Text(
-                          "Easy Shop",
-                          style: TextStyle(
-                            color: theme.isDark
-                                ? AppColors.AppBg
-                                : AppColors.AppBlack,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  actions: [
-                    InkWell(
-                      onTap: () {},
-                      child: Center(
-                        child: Text(
-                          "Skip",
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColors.AppGrey,
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
+                  appBar: AppBar(
+                    backgroundColor:
+                        theme.isDark ? AppColors.AppBlack : AppColors.AppBg,
+                    elevation: 0,
+                    title: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color:
+                            theme.isDark ? AppColors.AppBlack : AppColors.AppBg,
+                      ),
+                      child: Image.asset(
+                        "assets/images/logo.png",
+                        width: 40,
+                        height: 40,
                       ),
                     ),
-                    const SizedBox(
-                      width: 20,
-                    )
-                  ],
-                ),
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Text(
-                          "Hey",
-                          style: TextStyle(
-                            fontSize: 32,
-                            color: theme.isDark
-                                ? AppColors.AppBg
-                                : AppColors.AppBlack,
-                            fontWeight: FontWeight.w400,
+                  ),
+                  body: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(
+                            height: 40,
                           ),
-                        ),
-                        Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 34,
-                            color: theme.isDark
-                                ? AppColors.AppBg
-                                : AppColors.AppBlack,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        inputs.signupInput(
-                          text: "User Name",
-                          controller: _usernameController,
-                          onChanged: (p0) {
-                            log(p0);
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        inputs.signupInput(
-                          text: "Email",
-                          controller: _emailController,
-                          onChanged: (p0) {
-                            log(p0);
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        inputs.signupInput(
-                          text: "Phone Number",
-                          controller: _phoneController,
-                          onChanged: (p0) {
-                            log(p0);
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        inputs.passwordInput(
-                          isobsecure: true,
-                          text: "Password",
-                          controller: _passwordController,
-                          onChanged: (p0) {
-                            log(p0);
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        inputs.passwordInput(
-                          isobsecure: true,
-                          suffix: Icon(Icons.lock_outline,
-                              color: AppColors.AppTextPrimary),
-                          text: "Confirm Password",
-                          controller: _confirmPasswordController,
-                          onChanged: (p0) {
-                            log(p0);
-                            setState(() {});
-                          },
-                        ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize:
-                                  Size(MediaQuery.of(context).size.width, 55),
-                              backgroundColor: AppColors.AppPrimary,
+                          Text(
+                            "Hey",
+                            style: TextStyle(
+                              fontSize: 32,
+                              color: theme.isDark
+                                  ? AppColors.AppBg
+                                  : AppColors.AppBlack,
+                              fontWeight: FontWeight.w400,
                             ),
-                            onPressed: () {
-                              if (_passwordController.text ==
-                                  _confirmPasswordController.text) {
-                                register();
-                              } else {
-                                showSimpleNotification(
-                                  msg:
-                                      "Confrim Password not math with password ",
-                                  color: AppColors.AppPrimary,
-                                );
-                              }
+                          ),
+                          Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: 34,
+                              color: theme.isDark
+                                  ? AppColors.AppBg
+                                  : AppColors.AppBlack,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          inputs.signupInput(
+                            text: "User Name",
+                            controller: _usernameController,
+                            onChanged: (p0) {
+                              log(p0);
+                              setState(() {});
                             },
-                            child: Text(
-                              "Sign up".toUpperCase(),
-                              style: const TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 4,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          inputs.signupInput(
+                            text: "Email",
+                            controller: _emailController,
+                            onChanged: (p0) {
+                              log(p0);
+                              setState(() {});
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          inputs.signupInput(
+                            text: "Phone Number",
+                            controller: _phoneController,
+                            onChanged: (p0) {
+                              log(p0);
+                              setState(() {});
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          inputs.passwordInput(
+                            isobsecure: true,
+                            text: "Password",
+                            controller: _passwordController,
+                            onChanged: (p0) {
+                              log(p0);
+                              setState(() {});
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          inputs.passwordInput(
+                            isobsecure: true,
+                            suffix: Icon(Icons.lock_outline,
+                                color: AppColors.AppTextPrimary),
+                            text: "Confirm Password",
+                            controller: _confirmPasswordController,
+                            onChanged: (p0) {
+                              log(p0);
+                              setState(() {});
+                            },
+                          ),
+                          const SizedBox(
+                            height: 40,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                minimumSize:
+                                    Size(MediaQuery.of(context).size.width, 55),
+                                backgroundColor: AppColors.AppPrimary,
                               ),
-                            ),
-                          ),
-                        ),
-                        devides(sizes),
-                        SizedBox(
-                          height: 100,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _imageButton(
-                                  fun: () {
-                                    log("Facebook login");
-                                  },
-                                  img: 'assets/images/icons/facebook.png'),
-                              _imageButton(
-                                  fun: () {
-                                    log("Google login");
-                                  },
-                                  img: 'assets/images/icons/google.png'),
-                              _imageButton(
-                                  fun: () {
-                                    log("apple login");
-                                  },
-                                  img: 'assets/images/icons/apple.jpg'),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Alrady have an account ? ",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
+                              onPressed: () {
+                                if (_passwordController.text ==
+                                    _confirmPasswordController.text) {
+                                  register();
+                                } else {
+                                  showSimpleNotification(
+                                    msg:
+                                        "Confrim Password not math with password ",
+                                    color: AppColors.AppPrimary,
+                                  );
+                                }
+                              },
+                              child: Text(
+                                "Sign up".toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 4,
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  pushNamedToReplace(
-                                      routeName: LoginScreen.routeName);
-                                },
-                                child: const Text(
-                                  "Sign in",
+                            ),
+                          ),
+                          devides(sizes),
+                          SizedBox(
+                            height: 100,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                _imageButton(
+                                    fun: () {
+                                      log("Facebook login");
+                                    },
+                                    img: 'assets/images/icons/facebook.png'),
+                                _imageButton(
+                                    fun: () {
+                                      log("Google login");
+                                    },
+                                    img: 'assets/images/icons/google.png'),
+                                _imageButton(
+                                    fun: () {
+                                      log("apple login");
+                                    },
+                                    img: 'assets/images/icons/apple.jpg'),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Alrady have an account ? ",
                                   style: TextStyle(
-                                    color: Colors.deepOrange,
+                                    color: Colors.grey,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18,
-                                    decoration: TextDecoration.underline,
                                   ),
                                 ),
-                              ),
-                            ],
+                                InkWell(
+                                  onTap: () {
+                                    pushNamedToReplace(
+                                        routeName: LoginScreen.routeName);
+                                  },
+                                  child: const Text(
+                                    "Sign in",
+                                    style: TextStyle(
+                                      color: Colors.deepOrange,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

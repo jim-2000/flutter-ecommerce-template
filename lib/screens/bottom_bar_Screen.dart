@@ -113,7 +113,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
                   position: badges.BadgePosition.topEnd(top: -5, end: -7),
                   child: IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(CartScreen.routeName);
+                      _selecxtedIndex(2);
                     },
                     icon: const Icon(Icons.shopping_cart_outlined),
                   ),
@@ -138,6 +138,7 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
         ],
         onItemSelected: (index) {
           _selecxtedIndex(index);
+          print(' $index selected ---------');
         },
       ),
     );

@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:loading_indicator/loading_indicator.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/homeScreen';
@@ -35,19 +36,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<String> _offerImg = [
-    "assets/images/landing/buy-on-laptop.jpg",
-    "assets/images/landing/buy-through.png",
-    "assets/images/landing/buyfood.jpg",
-    "assets/images/landing/grocery-cart.jpg",
-    "assets/images/landing/store.jpg",
-    "assets/images/landing/vergtablebg.jpg",
+    "https://i.postimg.cc/TYPBB888/black-friday-sales-arrangement-with-shopping-cart-smartphone.jpg",
+    "https://i.postimg.cc/B6rtk56k/5594188.jpg",
+    "https://i.postimg.cc/HWFCnZQy/Offer3.jpg",
+    "https://i.postimg.cc/SxhF7n1Q/Offer4.jpg",
+    "https://i.postimg.cc/cH8Xbm6p/phone.jpg",
+    "https://i.postimg.cc/bvPgcbGG/young-fashion-woman-with-shopping-bags-through-torn-paper-hole-wall.jpg",
+    // "https://i.postimg.cc/XvjRmT0T/women.jpg",
   ];
 
   @override
   Widget build(BuildContext context) {
     final double hi = MediaQuery.of(context).size.height;
     final double we = MediaQuery.of(context).size.width;
-    final theme = Provider.of<ThemeProvider>(context);
+    // final theme = Provider.of<ThemeProvider>(context);
     final List<Product> products =
         Provider.of<ProductProvider>(context).product();
     final List<Catagori> catagories =
@@ -82,9 +84,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Colors.blueGrey,
                         )),
                         itemBuilder: (context, i) {
-                          return Image.asset(
-                            _offerImg[i],
-                            fit: BoxFit.fill,
+                          return CachedNetworkImage(
+                            progressIndicatorBuilder:
+                                (context, url, progress) => Center(
+                              child: CircularProgressIndicator(
+                                value: progress.progress,
+                                color: Colors.grey.shade200,
+                              ),
+                            ),
+                            imageUrl: _offerImg[i],
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                            fit: BoxFit.cover,
                           );
                         },
                       ),
@@ -165,7 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   img: catagories[i].catagoriImage.url,
                                   name: catagories[i].name,
                                   onTap: () {
-                                    log(catagories[i].id);
                                     pushNamedOnlyTo(
                                         routeName: CatagoriProducts.routeName,
                                         arg:

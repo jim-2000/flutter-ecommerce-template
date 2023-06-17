@@ -40,7 +40,6 @@ class _CatagoriProductsState extends State<CatagoriProducts> {
         );
     final catId = arg[0].trim();
     final name = arg[1].trim();
-    log('Name:${name.toString()} id:${catId.toString()}');
     final size = Utils(context).getScreenSize;
 
     // wishlist provider

@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +23,6 @@ import 'package:app/screens/order/OrderScreen.dart';
 import 'package:app/screens/order/PlaceOrder.dart';
 import 'package:app/screens/payment/payment.dart';
 import 'package:app/screens/wishlist/wishlist.dart';
-import 'package:app/services/app/catagoriService.dart';
 import 'package:app/utils/sf_utils.dart';
 import 'package:app/utils/themeData.dart';
 import 'package:app/screens/bottom_bar_Screen.dart';
@@ -33,7 +30,6 @@ import 'package:app/screens/bottom_bar_Screen.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);

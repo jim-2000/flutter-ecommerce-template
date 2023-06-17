@@ -92,196 +92,170 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(12),
                     color: theme ? AppColors.AppBlack : AppColors.AppBg,
                   ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/images/cat/veg.png",
-                        width: 40,
-                        height: 40,
-                      ),
-                      Text(
-                        "ultiKart",
-                        style: TextStyle(
-                          color: theme ? AppColors.AppBg : AppColors.AppBlack,
-                        ),
-                      )
-                    ],
+                  child: Image.asset(
+                    "assets/images/logo.png",
+                    width: 40,
+                    height: 40,
                   ),
                 ),
-                actions: [
-                  InkWell(
-                    onTap: () {},
-                    child: Center(
-                      child: Text(
-                        "Skip",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColors.AppGrey,
-                          fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  )
-                ],
               ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 80,
-                      ),
-                      Text(
-                        "Hey",
-                        style: TextStyle(
-                          fontSize: 32,
-                          color: theme ? AppColors.AppBg : AppColors.AppBlack,
-                          fontWeight: FontWeight.w400,
+              body: GestureDetector(
+                onTap: () => FocusScope.of(context).unfocus(),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 80,
                         ),
-                      ),
-                      Text(
-                        "Login Now",
-                        style: TextStyle(
-                          fontSize: 34,
-                          color: theme ? AppColors.AppBg : AppColors.AppBlack,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      inputs.signupInput(
-                        text: "Email",
-                        controller: _emailController,
-                        onChanged: (value) {
-                          log(value);
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      inputs.passwordInput(
-                          text: "Password",
-                          controller: _passwordController,
-                          isobsecure: isvisiable,
-                          suffix: IconButton(
-                            onPressed: _toggleVisibility,
-                            icon: Icon(
-                                isvisiable
-                                    ? Icons.remove_red_eye
-                                    : Icons.visibility_off,
-                                color: AppColors.AppGrey),
+                        Text(
+                          "Hey",
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: theme ? AppColors.AppBg : AppColors.AppBlack,
+                            fontWeight: FontWeight.w400,
                           ),
-                          onChanged: (p0) {
-                            setState(() {});
-                          }),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 20,
-                        child: GestureDetector(
-                          onTap: () {
-                            pushNamedOnlyTo(
-                              routeName: ForgotPassword.routeName,
-                            );
+                        ),
+                        Text(
+                          "Login Now",
+                          style: TextStyle(
+                            fontSize: 34,
+                            color: theme ? AppColors.AppBg : AppColors.AppBlack,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        inputs.signupInput(
+                          text: "Email",
+                          controller: _emailController,
+                          onChanged: (value) {
+                            log(value);
                           },
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Text(
-                              "Forgot Passowrd?",
-                              style: TextStyle(
-                                color: AppColors.AppPrimary,
-                              ),
-                            ),
-                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize:
-                                Size(MediaQuery.of(context).size.width, 55),
-                            backgroundColor: AppColors.AppPrimary,
-                          ),
-                          onPressed: login,
-                          child: Text(
-                            "Log in".toUpperCase(),
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w400,
-                              letterSpacing: 4,
-                            ),
-                          ),
+                        const SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      devides(sizes),
-                      SizedBox(
-                        height: 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _imageButton(
-                                fun: () {
-                                  log("Facebook login");
-                                },
-                                img: 'assets/images/icons/facebook.png'),
-                            _imageButton(
-                                fun: () {
-                                  log("Google login");
-                                },
-                                img: 'assets/images/icons/google.png'),
-                            _imageButton(
-                                fun: () {
-                                  log("apple login");
-                                },
-                                img: 'assets/images/icons/apple.jpg'),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 40,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Don't have account ? ",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              ),
+                        inputs.passwordInput(
+                            text: "Password",
+                            controller: _passwordController,
+                            isobsecure: true,
+                            suffix: IconButton(
+                              onPressed: _toggleVisibility,
+                              icon: Icon(
+                                  isvisiable
+                                      ? Icons.remove_red_eye
+                                      : Icons.visibility_off,
+                                  color: AppColors.AppGrey),
                             ),
-                            InkWell(
-                              onTap: () {
-                                pushNamedToReplace(
-                                    routeName: SignUpScreen.routeName);
-                              },
-                              child: const Text(
-                                "Sign up",
+                            onChanged: (p0) {
+                              setState(() {});
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 20,
+                          child: GestureDetector(
+                            onTap: () {
+                              pushNamedOnlyTo(
+                                routeName: ForgotPassword.routeName,
+                              );
+                            },
+                            child: Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(
+                                "Forgot Passowrd?",
                                 style: TextStyle(
-                                  color: Colors.deepOrange,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  decoration: TextDecoration.underline,
+                                  color: AppColors.AppPrimary,
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize:
+                                  Size(MediaQuery.of(context).size.width, 55),
+                              backgroundColor: AppColors.AppPrimary,
+                            ),
+                            onPressed: login,
+                            child: Text(
+                              "Log in".toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 4,
+                              ),
+                            ),
+                          ),
+                        ),
+                        devides(sizes),
+                        SizedBox(
+                          height: 100,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _imageButton(
+                                  fun: () {
+                                    log("Facebook login");
+                                  },
+                                  img: 'assets/images/icons/facebook.png'),
+                              _imageButton(
+                                  fun: () {
+                                    log("Google login");
+                                  },
+                                  img: 'assets/images/icons/google.png'),
+                              _imageButton(
+                                  fun: () {
+                                    log("apple login");
+                                  },
+                                  img: 'assets/images/icons/apple.jpg'),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Don't have account ? ",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  pushNamedToReplace(
+                                      routeName: SignUpScreen.routeName);
+                                },
+                                child: const Text(
+                                  "Sign up",
+                                  style: TextStyle(
+                                    color: Colors.deepOrange,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

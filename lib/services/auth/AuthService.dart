@@ -173,7 +173,7 @@ class AuthServices {
   // logout
   void signOut(BuildContext context) async {
     storeStringToSF('authToken', '');
-    pushNamedToReplace(routeName: LoginScreen.routeName);
+    pushNamedToAndRemoveUntil(routeName: LoginScreen.routeName);
   }
 
 // submit otp------------

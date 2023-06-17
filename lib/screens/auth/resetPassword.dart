@@ -56,145 +56,136 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
               ),
             )
-          : Scaffold(
-              backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
-              appBar: AppBar(
-                bottom: const PreferredSize(
+          : GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Scaffold(
+                backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
+                appBar: AppBar(
+                  automaticallyImplyLeading: false,
+                  bottom: const PreferredSize(
                     preferredSize: Size(
                       double.infinity,
                       50,
                     ),
-                    child: SizedBox()),
-                backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
-                elevation: 0,
-                title: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: theme ? AppColors.AppBlack : AppColors.AppBg,
+                    child: SizedBox(),
                   ),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "assets/images/cat/veg.png",
-                        width: 40,
-                        height: 40,
-                      ),
-                      Text(
-                        "ultiKart",
-                        style: TextStyle(
-                          color: theme ? AppColors.AppBg : AppColors.AppBlack,
-                        ),
-                      )
-                    ],
+                  backgroundColor: theme ? AppColors.AppBlack : AppColors.AppBg,
+                  elevation: 0,
+                  title: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: theme ? AppColors.AppBlack : AppColors.AppBg,
+                    ),
+                    child: Image.asset(
+                      "assets/images/logo.png",
+                      width: 40,
+                      height: 40,
+                    ),
                   ),
                 ),
-                actions: [
-                  TextButton(onPressed: () {}, child: const Text("SKIP")),
-                  const SizedBox(
-                    width: 40,
-                  )
-                ],
-              ),
-              body: SingleChildScrollView(
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Reset \nPassword !",
-                        style: TextStyle(
-                          fontSize: 34,
-                          color: theme ? AppColors.AppBg : AppColors.AppBlack,
-                          fontWeight: FontWeight.w600,
+                body: SingleChildScrollView(
+                  keyboardDismissBehavior:
+                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Reset \nPassword !",
+                          style: TextStyle(
+                            fontSize: 34,
+                            color: theme ? AppColors.AppBg : AppColors.AppBlack,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      OtpPinput(oncomplete: (v) {
-                        setState(() {
-                          _otp.text = v;
-                        });
-                      }),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      inputs.passwordInput(
-                        text: "New Password",
-                        isobsecure: isvisiable,
-                        controller: _newPasswordcontroller,
-                        onChanged: (p0) {
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        OtpPinput(oncomplete: (v) {
                           setState(() {
-                            _newPasswordcontroller.text;
+                            _otp.text = v;
                           });
-                        },
-                        suffix: IconButton(
-                          onPressed: _toggleVisibility,
-                          icon: Icon(
-                              isvisiable
-                                  ? Icons.remove_red_eye
-                                  : Icons.visibility_off,
-                              color: AppColors.AppGrey),
+                        }),
+                        const SizedBox(
+                          height: 20,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      inputs.passwordInput(
-                          text: "Confirm Password",
-                          controller: _confirmPasswordcontroller,
-                          isobsecure: true,
+                        inputs.passwordInput(
+                          text: "New Password",
+                          isobsecure: isvisiable,
+                          controller: _newPasswordcontroller,
                           onChanged: (p0) {
                             setState(() {
-                              _confirmPasswordcontroller.text = p0;
+                              _newPasswordcontroller.text;
                             });
-                          }),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      inputs.btn(
-                        text: "reset password",
-                        callback: () {
-                          final form = {
-                            "email": email,
-                            "password": _newPasswordcontroller.text,
-                            "otp": _otp.text,
-                            "confirm": _confirmPasswordcontroller.text,
-                          };
-                          if (_newPasswordcontroller.text.length > 5) {
-                            if (_otp.text.length > 5) {
-                              if (_newPasswordcontroller.text ==
-                                  _confirmPasswordcontroller.text) {
-                                AuthServices().resetPassword(
-                                  context,
-                                  email,
-                                  _confirmPasswordcontroller.text,
-                                  _otp.text,
-                                );
+                          },
+                          suffix: IconButton(
+                            onPressed: _toggleVisibility,
+                            icon: Icon(
+                                isvisiable
+                                    ? Icons.remove_red_eye
+                                    : Icons.visibility_off,
+                                color: AppColors.AppGrey),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        inputs.passwordInput(
+                            text: "Confirm Password",
+                            controller: _confirmPasswordcontroller,
+                            isobsecure: true,
+                            onChanged: (p0) {
+                              setState(() {
+                                _confirmPasswordcontroller.text = p0;
+                              });
+                            }),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        inputs.btn(
+                          text: "reset password",
+                          callback: () {
+                            final form = {
+                              "email": email,
+                              "password": _newPasswordcontroller.text,
+                              "otp": _otp.text,
+                              "confirm": _confirmPasswordcontroller.text,
+                            };
+                            if (_newPasswordcontroller.text.length > 5) {
+                              if (_otp.text.length > 5) {
+                                if (_newPasswordcontroller.text ==
+                                    _confirmPasswordcontroller.text) {
+                                  AuthServices().resetPassword(
+                                    context,
+                                    email,
+                                    _confirmPasswordcontroller.text,
+                                    _otp.text,
+                                  );
+                                } else {
+                                  showSimpleNotification(
+                                      msg: "",
+                                      title:
+                                          "New password & Confirm password not match",
+                                      color: AppColors.AppPrimary);
+                                }
                               } else {
                                 showSimpleNotification(
                                     msg: "",
-                                    title:
-                                        "New password & Confirm password not match");
+                                    title: "Please fill up Otp",
+                                    color: AppColors.AppPrimary);
                               }
                             } else {
                               showSimpleNotification(
                                 msg: "",
-                                title: "Please fill up Otp",
+                                title:
+                                    "Minimum password length is 6 characters",
                               );
                             }
-                          } else {
-                            showSimpleNotification(
-                              msg: "",
-                              title: "Minimum password length is 6 characters",
-                            );
-                          }
-                        },
-                      ),
-                    ],
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

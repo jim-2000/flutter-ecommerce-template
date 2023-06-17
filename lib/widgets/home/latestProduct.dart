@@ -61,7 +61,7 @@ class LatestProduct extends StatelessWidget {
                     boxFit: BoxFit.cover,
                   ),
                   Text(
-                    products.name,
+                    '${products.name.substring(0, products.name.length > 18 ? 18 : products.name.length)}...',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(

@@ -116,10 +116,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       )
                     : null,
                 itemBuilder: (context, i) {
-                  return InkWell(
-                    onDoubleTap: () {
-                      wishlist.addToWishList(product);
-                    },
+                  return InteractiveViewer(
+                    minScale: 1.2,
+                    maxScale: 4,
                     child: FancyShimmerImage(
                       imageUrl: product.images[i].url,
                       boxFit: BoxFit.cover,

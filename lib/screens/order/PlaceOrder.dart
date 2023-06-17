@@ -27,21 +27,14 @@ class PlaceOrder extends StatefulWidget {
 
 class _PlaceOrderState extends State<PlaceOrder> {
   final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _country = TextEditingController();
+  final TextEditingController _country =
+      TextEditingController(text: 'Bangladesh');
   final TextEditingController _city = TextEditingController();
   final TextEditingController _street = TextEditingController();
   final TextEditingController _address = TextEditingController();
   //
   final orderservice = OrderService();
   final paymentService = PaymentService();
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   //
-  //   Future.delayed(Duration.zero, () async {
-  //     orderservice.createPaymentIntent(context);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +43,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     final orderprov = Provider.of<OrderProvider>(context);
     final userrProv = Provider.of<UserProvider>(context);
     final cartprov = Provider.of<CartProvider>(context);
-    Map<String, dynamic>? paymentIntent;
+    Map<String, dynamic> paymentIntent;
 
     //
     Future displaypayment() async {
@@ -232,13 +225,16 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                     paymentSheetParameters:
                                         SetupPaymentSheetParameters(
                                       paymentIntentClientSecret:
-                                          paymentIntent!['client_secret'],
+                                          paymentIntent['client_secret'],
                                       merchantDisplayName: 'Easy Shop',
                                       style: ThemeMode.light,
                                     ),
                                   )
                                   .then((value) =>
-                                      {log(paymentIntent.toString())});
+                                      {log(paymentIntent.toString())})
+                                  .catchError((error) => {
+                                        log(error.toString()),
+                                      });
                               await Stripe.instance
                                   .presentPaymentSheet()
                                   .then((value) => {
@@ -256,14 +252,14 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                               address: _address.text,
                                             ),
                                             PaymentInfo(
-                                              id: paymentIntent!['id']
+                                              id: paymentIntent['id']
                                                   .toString(),
                                               status: 'Succeeded',
                                             ),
                                             1,
                                           );
                                         }),
-                                        paymentIntent = null
+                                        paymentIntent = {}
                                       });
                             } else {
                               orderservice.newOrder(
